@@ -1,3 +1,14 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:90728d1c3e412c4c64c36cd9d59d49c47d546f31301985b89ac749795055fe19
-size 578
+const accountCreationModal = document.querySelector('#accountCreationModal');
+const openAccountCreationModalButton = document.querySelectorAll('.openAccountCreationModalButton');
+const closeAccountCreationModalButton = document.querySelectorAll('.closeAccountCreationModalButton');
+
+openAccountCreationModalButton.forEach(button => {
+    button.addEventListener('click', () => {
+        accountCreationModal.showModal();
+    });
+});
+
+closeAccountCreationModalButton.forEach(button => {
+    button.addEventListener('click', () => {
+        accountCreationModal.close();
+    })});

@@ -1,3 +1,56 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:04ee746b00f907e3d781340ca42a1a3886d5e31888c9f5b1a514ecf43fce7c1c
-size 2241
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reqal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="backgroundVideoContainer" ">
+            <video id="backgroundVideo" autoplay muted loop playsinline>
+                <source src="assets/Video Reqal Background.mp4" type="video/mp4">
+            </video>
+        </div>
+
+        <div class ="logoWithText">
+            <img src="assets/Reqal Logo W-text - Dark Mode.svg" alt="Reqal Logo" class="logo">
+        </div>
+
+        <nav class="navLinks">
+            <a href="#features" class="link">Features</a>
+            <a href="#pricing" class="link">Pricing</a>
+            <a href="#login" class="link">Login</a>
+            <button class="altLink openAccountCreationModalButton">Create Account</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1 class="heroTitle">Learn any language</h1>
+            <h1 class="heroTitle" id="secondaryHeroTitle">Travel wherever you want</h1>
+            <h2 class="heroSubtitle">Start your language learning journey today.</h2>
+            <button class="heroButton altLink openAccountCreationModalButton ">Get Started</button>
+        </section>
+    </main>
+
+    <dialog id="accountCreationModal" class="modal">
+        <h2>Create Your Account</h2>
+        <fieldset>
+                <label for="username">Username:<br></label>
+                <input type="text" id="username" name="username" required><br>
+
+                <label for="email">Email:<br></label>
+                <input type="email" id="email" name="email" required><br>
+
+                <label for="password">Password:<br></label>
+                <input type="password" id="password" name="password" required><br>
+
+                <button type="submit">Create Account</button>
+                <button type="button" class="closeAccountCreationModalButton">Cancel</button>
+        </fieldset>
+    </dialog>
+</body>
+<script src="index.js"></script>
+</html>
