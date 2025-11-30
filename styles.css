@@ -1,5 +1,16 @@
+@font-face {
+    font-family: 'Interphases';
+    src: url('assets/fonts/ Interphases\ Pro\ Mono\ Trial\ Regular.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Interphases Bold';
+    src: url('assets/fonts/TT\ Interphases\ Pro\ Mono\ Trial\ Bold.ttf') format('truetype');
+}
+
+
 *{
-    /*arranjar fonte melhor*/
+
     font-family: sans-serif;
     color: #FFF;
 }
@@ -20,6 +31,10 @@ button{
     background-color: #43BCBB;
     padding: 15px 15px;   
     border-radius: 40px;
+}
+
+button:hover{
+    background-color: #308d8d;
 }
 
 header{
@@ -46,6 +61,10 @@ a.altLink{
     background-color: #43BCBB;
     padding: 15px 15px;   
     border-radius: 40px;
+}
+
+a, button{
+    transition: color 0.3s ease 0s, background-color 0.3s ease 0s;
 }
 
 a.link:hover, button.link:hover{
@@ -83,7 +102,7 @@ a.altLink:hover, button.altLink:hover{
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.45);
+    background: rgba(0,0,0,0.75);
     pointer-events: none;
     z-index: 1;
 }
@@ -119,17 +138,65 @@ a.altLink:hover, button.altLink:hover{
     border-radius: 40px;
     width: 125px;
     align-self: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 1);
+}
+
+
+.modal{
+    transition: background 100ms ease 0s;
+    transition: backdrop-filter 100ms ease 0s;
+
 }
 
 .modal::backdrop {
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(5px);
+    transition: opacity 0.3s ease;
 }
 
 .heroTitle{
-    font-size: 48px;
+    font-size: 56px;
     margin: 0 0 5px 0;
+    font-family: "Josefin Sans", 'Interphases Bold', sans-serif;
+    font-weight: bold;
+
+}
+
+.modal fieldset{
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 15px;
+}
+
+.modal label{
+    font-size: 14px;
+    text-align: left;
+}
+
+.buttonSpacer{
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+}
+
+.altButton{
+    background-color: transparent;
+    border: 2px solid #43BCBB;
+    color: #FFF;
+    padding: 15px 15px;   
+    border-radius: 40px;
+    width: 125px;
+    align-self: center;
+}
+
+#closeModalButton img{
+    transition: filter 0.3s ease 0s;
+}
+
+#closeModalButton img:hover{
+    filter: invert(0.25);
+
 }
 
 #secondaryHeroTitle{
@@ -147,19 +214,55 @@ a.altLink:hover, button.altLink:hover{
     transform: translate(-50%, -50%);
 }
 
-#accountCreationModal{
-    width: 400px;
-    height: 300px;
-    border-radius: 10px;
-    padding: 20px;
-    background-color: #222;
-    border: none;
+@starting-style {
+    #accountCreationModal[open] {
+        opacity: 0;
+        transform: 0.9s;
+    }
+    #accountCreationModal[open]::backdrop {
+        opacity: 0;
+    }
 }
+
+#accountCreationModal{
+    min-width: 500px;
+    min-height: 250px;
+    border-radius: 10px;
+    padding: 70px;
+    background-color: #222;
+    border: 3px solid #f63a7c;
+    transition: opacity 0.3s ease;
+
+}   
 
 #accountCreationModal h2{
     margin-top: 0;
     margin-bottom: 20px;
+    font-weight: bold;;
     color: #FFF;
-    font-size: 20px;
+    font-size: 40px;
     text-align: center;
+}
+
+#accountCreationModal label{
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+#accountCreationModal input{
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #f63a7c;
+    font-size: 16px;
+    background-color:#1e1e1e;
+}
+
+#closeModalButton {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent; 
+    padding: 0;              
+    border-radius: 0;        
+    width: 30px; 
 }

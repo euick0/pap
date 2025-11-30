@@ -10,12 +10,12 @@
     <header>
         <div class="backgroundVideoContainer" ">
             <video id="backgroundVideo" autoplay muted loop playsinline>
-                <source src="assets/Video Reqal Background.mp4" type="video/mp4">
+                <source src="assets/videos/Video Reqal Background.mp4" type="video/mp4">
             </video>
         </div>
 
         <div class ="logoWithText">
-            <img src="assets/Reqal Logo W-text - Dark Mode.svg" alt="Reqal Logo" class="logo">
+            <img src="assets/svgs/Reqal Logo W-text - Dark Mode.svg" alt="Reqal Logo" class="logo">
         </div>
 
         <nav class="navLinks">
@@ -35,20 +35,24 @@
         </section>
     </main>
 
+    
     <dialog id="accountCreationModal" class="modal">
+        <button type="button" class="closeAccountCreationModalButton" id="closeModalButton"><img src="assets/svgs/x.svg"></button>
         <h2>Create Your Account</h2>
         <fieldset>
-                <label for="username">Username:<br></label>
-                <input type="text" id="username" name="username" required><br>
-
-                <label for="email">Email:<br></label>
-                <input type="email" id="email" name="email" required><br>
-
-                <label for="password">Password:<br></label>
-                <input type="password" id="password" name="password" required><br>
-
+            <label for="username">Username:<br></label>
+            <input type="text" id="username" name="username" required><br>
+            <label for="email">Email:<br></label>
+            <input type="email" id="email" name="email" required><br>
+            <label for="password">Password:<br></label>
+            <input type="password" id="password" name="password" required><br>
+            
+            <div class="buttonSpacer">
                 <button type="submit">Create Account</button>
-                <button type="button" class="closeAccountCreationModalButton">Cancel</button>
+                <button type="button" class="altButton">Log In</button>
+            </div>
+            
+            
         </fieldset>
     </dialog>
 </body>

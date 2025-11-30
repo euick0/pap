@@ -11,4 +11,17 @@ openAccountCreationModalButton.forEach(button => {
 closeAccountCreationModalButton.forEach(button => {
     button.addEventListener('click', () => {
         accountCreationModal.close();
-    })});
+})});
+
+//ao clicar fora do modal fecha-lo
+accountCreationModal.addEventListener('click', (cursorPosition) => {
+    const dialogDimensions = accountCreationModal.getBoundingClientRect();
+    if (
+        cursorPosition.clientX < dialogDimensions.left ||
+        cursorPosition.clientX > dialogDimensions.right ||
+        cursorPosition.clientY < dialogDimensions.top ||
+        cursorPosition.clientY > dialogDimensions.bottom) 
+        {
+            accountCreationModal.close();
+        }
+})
