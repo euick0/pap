@@ -24,14 +24,13 @@ a{
 button{
     text-decoration: none;
     border: none;
-    color: #FFFC;
-    text-decoration: none;
     color: #FFFF;
     cursor: pointer;
     background-color: #43BCBB;
     padding: 15px 15px;   
     border-radius: 40px;
 }
+
 
 button:hover{
     background-color: #308d8d;
@@ -74,6 +73,18 @@ a.link:hover, button.link:hover{
 
 a.altLink:hover, button.altLink:hover{
     background-color: #308d8d;
+}
+
+.buttonOnlyText{
+    font: inherit;
+    background-color: transparent ;  
+    padding: 0;
+    border: none;
+    color: #FFFC;
+}
+
+.buttonOnlyText:hover{
+    background-color: transparent;
 }
 
 .hero{
@@ -142,9 +153,15 @@ a.altLink:hover, button.altLink:hover{
 
 
 .modal{
+    min-width: 500px;
+    min-height: 250px;
+    border-radius: 10px;
+    padding: 70px;
+    background-color: #222;
+    border: 3px solid #f63a7c;
+    transition: opacity 0.3s ease;
     transition: background 100ms ease 0s;
     transition: backdrop-filter 100ms ease 0s;
-
 }
 
 .modal::backdrop {
@@ -180,21 +197,34 @@ a.altLink:hover, button.altLink:hover{
     flex-direction: row;
 }
 
+.buttonSpacer button{
+    min-width: 85px;
+    text-align: center;
+}
 .altButton{
     background-color: transparent;
     border: 2px solid #43BCBB;
     color: #FFF;
     padding: 15px 15px;   
     border-radius: 40px;
-    width: 125px;
     align-self: center;
 }
 
-#closeModalButton img{
+#closeAccountCreationModalButton, #closeLoginModalButton{
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: transparent; 
+    padding: 0;              
+    border-radius: 0;        
+    width: 30px; 
+}
+
+#closeModalButton img, #closeLoginModalButton img{
     transition: filter 0.3s ease 0s;
 }
 
-#closeModalButton img:hover{
+#closeModalButton img:hover, #closeLoginModalButton img:hover{
     filter: invert(0.25);
 
 }
@@ -204,7 +234,7 @@ a.altLink:hover, button.altLink:hover{
     color: #f63a7c;
 }
 
-#backgroundVideo {
+#backgroundVideo{
     position: absolute;
     top: 50%;
     left: 50%;
@@ -215,27 +245,17 @@ a.altLink:hover, button.altLink:hover{
 }
 
 @starting-style {
-    #accountCreationModal[open] {
+    #accountCreationModal[open] #loginModal {
         opacity: 0;
         transform: 0.9s;
     }
-    #accountCreationModal[open]::backdrop {
+    #accountCreationModal[open]::backdrop #loginModal {
         opacity: 0;
     }
 }
 
-#accountCreationModal{
-    min-width: 500px;
-    min-height: 250px;
-    border-radius: 10px;
-    padding: 70px;
-    background-color: #222;
-    border: 3px solid #f63a7c;
-    transition: opacity 0.3s ease;
 
-}   
-
-#accountCreationModal h2{
+#accountCreationModal h2, #loginModal h2{
     margin-top: 0;
     margin-bottom: 20px;
     font-weight: bold;;
@@ -244,25 +264,15 @@ a.altLink:hover, button.altLink:hover{
     text-align: center;
 }
 
-#accountCreationModal label{
+#accountCreationModal label, #loginModal label{
     font-size: 16px;
     margin-bottom: 5px;
 }
 
-#accountCreationModal input{
+#accountCreationModal input, #loginModal input{
     padding: 5px;
     border-radius: 5px;
     border: 1px solid #f63a7c;
     font-size: 16px;
     background-color:#1e1e1e;
-}
-
-#closeModalButton {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: transparent; 
-    padding: 0;              
-    border-radius: 0;        
-    width: 30px; 
 }
