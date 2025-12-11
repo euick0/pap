@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,12 +40,12 @@
     <dialog id="accountCreationModal" class="modal">
         <button type="button" class="closeAccountCreationModalButton" id="closeAccountCreationModalButton"><img src="assets/svgs/x.svg"></button>
         <h2>Create Your Account</h2>
-        <form name="createAccount" action="register.php" method="POST">
+        <form name="createAccount" action="register.php" method="post">
             <fieldset>
                 <label for="username">Username:<br></label>
-                <input type="text" id="username" name="username" required><br>
+                <input type="text" maxlength="254" id="username" name="username" required><br>
                 <label for="name">Name:<br></label>
-                <input type="text" id="name" name="name" required><br>
+                <input type="text" maxlength="254" id="name" name="name" required><br>
                 <label for="email">Email:<br></label>
                 <input type="email" id="email" name="email" required><br>
                 <label for="password">Password:<br></label>
@@ -63,7 +64,7 @@
         <h2>Login</h2>
         <fieldset>
             <label for="username">Username or email<br></label>
-            <input type="text" id="usernameOrEmail" name="usernameOrEmail" required><br>
+            <input type="text" maxlength="254   " id="usernameOrEmail" name="usernameOrEmail" required><br>
             <label for="password">Password:<br></label>
             <input type="password" id="loginPassword" name="password" required><br>
             
@@ -74,6 +75,57 @@
         </fieldset>
     </dialog>
 
+
+    
+
+    <?php
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
+            echo "<script>window.location.href = 'index.html';</script>";
+        }
+
+        $username = $_POST['username'] ?? '';
+        $name = $_POST['name'] ?? '';
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+        
+        echo($username.$name.$email.$password);
+
+        $connection = mysqli_connect('localhost', 'root');
+        mysqli_select_db($connection,'projetoSI');
+
+        if(!$connection){
+            die("Connection failed: " . mysqli_connect_error());
+        }
+
+        $queryCheckEmail = "select * from user where email = '$email'";
+        $queryCheckUsername  = "select * from user where username = '$username'";
+        $queryInsert = "insert into user(username, name, email, password, roleID) values ('$username', '$name', '$email', '$password', 3);";
+
+        $resultEmail = mysqli_query($connection, $queryCheckEmail); 
+        $resultUsername = mysqli_query($connection, $queryCheckUsername);
+
+        if (mysqli_num_rows($resultEmail) > 0){
+            echo("Email already exists");
+            die;
+        }elseif (mysqli_num_rows($resultUsername) > 0){
+            echo("Username already exists");
+            die;
+        }
+        if(mysqli_query($connection, $queryInsert)){
+            $_SESSION['username'] = $username;
+            $_SESSION['email'] = $email;
+            $_SESSION['roleID'] = 3;
+            echo "<script>window.location.href = 'main.html';</script>";
+        }
+        else{
+            echo("Error creating Account: ". mysqli_error($connection)."");
+        }
+
+
+        
+    ?>
+
 </body>
 <script src="index.js"></script>
+<script src="registerPHP.js"></script>
 </html>

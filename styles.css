@@ -1,11 +1,11 @@
 @font-face {
     font-family: 'Interphases';
-    src: url('assets/fonts/ Interphases\ Pro\ Mono\ Trial\ Regular.ttf') format('truetype');
+    src: url('/assets/fonts/ Interphases\ Pro\ Mono\ Trial\ Regular.ttf') format('truetype');
 }
 
 @font-face {
     font-family: 'Interphases Bold';
-    src: url('assets/fonts/TT\ Interphases\ Pro\ Mono\ Trial\ Bold.ttf') format('truetype');
+    src: url('/assets/fonts/TT\ Interphases\ Pro\ Mono\ Trial\ Bold.ttf') format('truetype');
 }
 
 
@@ -19,7 +19,6 @@ a{
     text-decoration: none;
     color: #FFFC;
 }
-
 
 button{
     text-decoration: none;
@@ -60,6 +59,10 @@ a.altLink{
     background-color: #43BCBB;
     padding: 15px 15px;   
     border-radius: 40px;
+}
+
+body{
+    background-color: transparent;
 }
 
 a, button{
@@ -113,7 +116,7 @@ a.altLink:hover, button.altLink:hover{
     content: "";
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.75);
+    background: rgba(0,0,0,0.50);
     pointer-events: none;
     z-index: 1;
 }
@@ -272,7 +275,12 @@ a.altLink:hover, button.altLink:hover{
 #accountCreationModal input, #loginModal input{
     padding: 5px;
     border-radius: 5px;
-    border: 1px solid #f63a7c;
+    border: 1px solid #6EC72D;
     font-size: 16px;
     background-color:#1e1e1e;
+    transition: border-color 0.3s ease 0s;
+}
+
+#accountCreationModal input:invalid, #loginModal input:invalid{
+    border-color: #f63a3a;
 }
