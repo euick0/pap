@@ -35,6 +35,22 @@
             <button class="heroButton altLink openAccountCreationModalButton ">Get Started</button>
         </section>
     </main>
+    
+        <dialog id="loginModal" class="modal">
+            <button type="button" class="closeLoginModalButton" id="closeLoginModalButton"><img src="assets/svgs/x.svg"></button>
+            <h2>Login</h2>
+            <fieldset>
+                <label for="username">Username or email<br></label>
+                <input type="text" maxlength="254   " id="usernameOrEmail" name="usernameOrEmail" required><br>
+                <label for="password">Password:<br></label>
+                <input type="password" id="loginPassword" name="password" required><br>
+                
+                <div class="buttonSpacer">
+                    <button type="submit">Log In</button>
+                    <button type="button" class="altButton" id="createAccountButtonInsideLoginModal">Create a new account</button>
+                </div>
+            </fieldset>
+        </dialog>
 
     
     <dialog id="accountCreationModal" class="modal">
@@ -56,74 +72,58 @@
                     <button type="button" class="altButton" id="logInButtonInsideAccountCreationModal">Log In</button>
                 </div>
             </fieldset>
+
+            <div class="popUp" id="registerPopUp">
+                <?php
+                    try {
+                        if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
+                            echo "<script>window.location.href = 'index.html';</script>";
+                        }
+        
+                        $username = $_POST['username'] ?? '';
+                        $name = $_POST['name'] ?? '';
+                        $email = $_POST['email'] ?? '';
+                        $password = $_POST['password'] ?? '';
+                        $connection = mysqli_connect('localhost', 'root');
+                        mysqli_select_db($connection,'projetoSI');
+        
+                        if(!$connection){
+                            echo("Connection failed: " . mysqli_connect_error());
+                            throw new Exception("");
+                        }
+        
+                        $queryCheckEmail = "select * from user where email = '$email'";
+                        $queryCheckUsername  = "select * from user where username = '$username'";
+                        $queryInsert = "insert into user(username, name, email, password, roleID) values ('$username', '$name', '$email', '$password', 3);";
+                        $resultEmail = mysqli_query($connection, $queryCheckEmail); 
+                        $resultUsername = mysqli_query($connection, $queryCheckUsername);
+        
+                        if (mysqli_num_rows($resultEmail) > 0){
+                            echo("Email already exists");
+                            throw new Exception("");
+        
+                        }elseif (mysqli_num_rows($resultUsername) > 0){
+                            echo("Username already exists");
+                            throw new Exception("");
+                        }
+        
+                        if(mysqli_query($connection, $queryInsert)){
+                            $_SESSION['username'] = $username;
+                            $_SESSION['email'] = $email;
+                            $_SESSION['roleID'] = 3;
+                            echo "<script>window.location.href = 'main.html';</script>";
+                        }
+        
+                        else{
+                            echo("Error creating Account: ". mysqli_error($connection)."");}
+                    }
+                    catch(Exception $e){}
+                ?>
+            </div>
+                    
         </form>
     </dialog>
 
-    <dialog id="loginModal" class="modal">
-        <button type="button" class="closeLoginModalButton" id="closeLoginModalButton"><img src="assets/svgs/x.svg"></button>
-        <h2>Login</h2>
-        <fieldset>
-            <label for="username">Username or email<br></label>
-            <input type="text" maxlength="254   " id="usernameOrEmail" name="usernameOrEmail" required><br>
-            <label for="password">Password:<br></label>
-            <input type="password" id="loginPassword" name="password" required><br>
-            
-            <div class="buttonSpacer">
-                <button type="submit">Log In</button>
-                <button type="button" class="altButton" id="createAccountButtonInsideLoginModal">Create a new account</button>
-            </div>
-        </fieldset>
-    </dialog>
-
-
-    
-
-    <?php
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
-            echo "<script>window.location.href = 'index.html';</script>";
-        }
-
-        $username = $_POST['username'] ?? '';
-        $name = $_POST['name'] ?? '';
-        $email = $_POST['email'] ?? '';
-        $password = $_POST['password'] ?? '';
-        
-        echo($username.$name.$email.$password);
-
-        $connection = mysqli_connect('localhost', 'root');
-        mysqli_select_db($connection,'projetoSI');
-
-        if(!$connection){
-            die("Connection failed: " . mysqli_connect_error());
-        }
-
-        $queryCheckEmail = "select * from user where email = '$email'";
-        $queryCheckUsername  = "select * from user where username = '$username'";
-        $queryInsert = "insert into user(username, name, email, password, roleID) values ('$username', '$name', '$email', '$password', 3);";
-
-        $resultEmail = mysqli_query($connection, $queryCheckEmail); 
-        $resultUsername = mysqli_query($connection, $queryCheckUsername);
-
-        if (mysqli_num_rows($resultEmail) > 0){
-            echo("Email already exists");
-            die;
-        }elseif (mysqli_num_rows($resultUsername) > 0){
-            echo("Username already exists");
-            die;
-        }
-        if(mysqli_query($connection, $queryInsert)){
-            $_SESSION['username'] = $username;
-            $_SESSION['email'] = $email;
-            $_SESSION['roleID'] = 3;
-            echo "<script>window.location.href = 'main.html';</script>";
-        }
-        else{
-            echo("Error creating Account: ". mysqli_error($connection)."");
-        }
-
-
-        
-    ?>
 
 </body>
 <script src="index.js"></script>

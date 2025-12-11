@@ -154,7 +154,6 @@ a.altLink:hover, button.altLink:hover{
     align-self: center;
 }
 
-
 .modal{
     min-width: 500px;
     min-height: 250px;
@@ -178,7 +177,6 @@ a.altLink:hover, button.altLink:hover{
     margin: 0 0 5px 0;
     font-family: "Josefin Sans", 'Interphases Bold', sans-serif;
     font-weight: bold;
-
 }
 
 .modal fieldset{
@@ -211,6 +209,29 @@ a.altLink:hover, button.altLink:hover{
     padding: 15px 15px;   
     border-radius: 40px;
     align-self: center;
+}
+
+.popUp{
+    text-align: center;
+    position: fixed;
+    bottom: 20px;
+    right: 20px; 
+    display: inline-block;
+    padding: 10px 20px; 
+    background-color:#f63a3a;
+    display: flex;
+    border-radius: 20px;
+    z-index: 100px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+}
+
+.popUp.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 #closeAccountCreationModalButton, #closeLoginModalButton{
