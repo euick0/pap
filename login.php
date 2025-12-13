@@ -5,9 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reqal</title>
     <link rel="stylesheet" href="styles.css">
+    <body>
 </head>
-<body>
-
     <header>
         <div class="backgroundVideoContainer">
             <video id="backgroundVideo" autoplay muted loop playsinline>
@@ -49,8 +48,8 @@
                 <label for="email">Email:<br></label>
                 <input type="email" id="email" name="email" required><br>
                 <label for="password">Password:<br></label>
-                
                 <input type="password" id="password" name="password" required><br>
+                
                 <div class="buttonSpacer">
                     <button type="submit">Create Account</button>
                     <button type="button" class="altButton" id="logInButtonInsideAccountCreationModal">Log In</button>
@@ -61,7 +60,6 @@
 
     <dialog id="loginModal" class="modal">
         <h2>Login</h2>
-            <input type="text" id="usernameOrEmail" name="usernameOrEmail" required><br>
         <button type="button" class="closeLoginModalButton" id="closeLoginModalButton"><img src="assets/svgs/x.svg"></button>
         <form name="login" action="login.php" method="POST">
             <fieldset>
@@ -75,10 +73,62 @@
                     <button type="button" class="altButton" id="createAccountButtonInsideLoginModal">Create a new account</button>
                 </div>
             </fieldset>
+            <div class="popUp" id="loginPopUp">
+                <?php
+                    try{
+                        if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
+                            echo "<script>window.location.href = 'index.html';</script>";
+                        }
+                        $usernameOrEmail = $_POST["usernameOrEmail"] ?? '';
+                        $password = $_POST["password"] ?? '';
+
+                        $connection = mysqli_connect('localhost', 'root');
+                        mysqli_select_db($connection,'projetoSI');
+
+                        
+                        if(!$connection){
+                            echo("Connection failed: " . mysqli_connect_error());
+                            throw new Exception("");    
+                        }
+
+                        $querySearchEmail = "select * from user where email = '$usernameOrEmail'";
+                        $querySearchUsername = "select * from user where username = '$usernameOrEmail'";
+                        $resultEmail = mysqli_query($connection, $querySearchEmail);
+                        $resultUsername = mysqli_query($connection, $querySearchUsername);
+                        if( mysqli_num_rows($resultEmail) > 0){
+                            $resultPassword = mysqli_query($connection,    "select * from user where email = '$email' and password = '$password'") ?? '';
+                        }
+                        elseif( mysqli_num_rows($resultUsername) > 0){
+                            $resultPassword = mysqli_query($connection,    "select * from user where username = '$username' and password = '$password'") ?? '';
+                        }
+                        else{
+                            echo("Username or email not found");
+                            throw new Exception("");
+
+                        }
+                        
+                        if( mysqli_num_rows($resultUsername) > 0){
+                            $_SESSION['username'] = $username;
+                            $_SESSION['email'] = $email;
+                            $_SESSION['roleID'] = 3;
+                            echo "<script>window.location.href = 'main.html';</script>";
+                        }
+                        else{
+                            echo("Password Incorrect");
+                            throw new Exception("");
+                        }
+                    }
+                    
+                    catch(Exception $e){
+                    }                
+                ?>
+                
+            </div>
         </form>
     </dialog>
-
+    
     
     <script src="index.js"></script>
+    <script src="loginPHP.js"></script>
 </body>
 </html>
