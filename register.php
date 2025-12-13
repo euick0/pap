@@ -111,7 +111,7 @@
                             $_SESSION['username'] = $username;
                             $_SESSION['email'] = $email;
                             $_SESSION['roleID'] = 3;
-                            echo "<script>window.location.href = 'main.html';</script>";
+                            echo "<script>window.location.href = 'main.php';</script>";
                         }
         
                         else{
