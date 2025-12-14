@@ -29,9 +29,14 @@ aside.mainAside{
     padding: 0px;
 }
 
-#accountOptions img{
+#accountOptionsIconContainer img{
     width: 50%;
     height: 50%;
-    padding: auto;
+    filter: invert(1);
+}
+
+#adminIconContainer img{
+    width: 50%;     
+    height: 50%;
     filter: invert(1);
 }

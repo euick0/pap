@@ -13,14 +13,28 @@
             <div class ="iconContainer" id="logoIconContainer">
                 <img src="assets/svgs/Reqal Logo - Dark Mode.svg">
             </div>
+            <div class ="iconContainer" id="adminIconContainer">
+                <img src="assets/svgs/protect.svg">
+            </div>
+            <div class ="iconContainer">
+
+            </div>
             <div class ="iconContainer">
 
             </div>
         </div> 
+        <?php
+        
+        
+        echo('
         <div class="bottomIcons">
-            <div class ="iconContainer" id="accountOptions">
+            <div class ="iconContainer" id="accountOptionsIconContainer">
                 <img src="assets/svgs/menu.svg">
             </div>
-        </div>
+        </div>');
+        
+        
+        
+        ?>
     </aside>
 </body>
