@@ -106,8 +106,9 @@
                             echo("Username already exists");
                             throw new Exception("");
                         }
-        
+                        
                         if(mysqli_query($connection, $queryInsert)){
+
                             $_SESSION['username'] = $username;
                             $_SESSION['email'] = $email;
                             $_SESSION['roleID'] = 3;

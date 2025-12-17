@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -96,22 +97,25 @@
                         $resultEmail = mysqli_query($connection, $querySearchEmail);
                         $resultUsername = mysqli_query($connection, $querySearchUsername);
                         if( mysqli_num_rows($resultEmail) > 0){
-                            $resultPassword = mysqli_query($connection,    "select * from user where email = '$email' and password = '$password'") ?? '';
+                            $resultPassword = mysqli_query($connection,    "select * from user where email = '$usernameOrEmail' and password = '$password'") ?? '';
+                            $_SESSION['email'] = $usernameOrEmail;
+                            $resultUsername = mysqli_query($connection,"select username from user where email = '$usernameOrEmail' ") ?? '';
                         }
                         elseif( mysqli_num_rows($resultUsername) > 0){
-                            $resultPassword = mysqli_query($connection,    "select * from user where username = '$username' and password = '$password'") ?? '';
+                            $resultPassword = mysqli_query($connection,    "select * from user where username = '$usernameOrEmail' and password = '$password'") ?? '';
                         }
                         else{
                             echo("Username or email not found");
                             throw new Exception("");
-
                         }
                         
-                        if( mysqli_num_rows($resultUsername) > 0){
+                        $username = mysqli_fetch_assoc($resultUsername)['username'];
+                        $resultRoleID = mysqli_query($connection, "select roleID from user where username = '$username'");
+
+                        if( mysqli_num_rows($resultUsername) > 0 or mysqli_num_rows($resultEmail) > 0){
                             $_SESSION['username'] = $username;
-                            $_SESSION['email'] = $email;
-                            $_SESSION['roleID'] = 3;
-                            echo "<script>window.location.href = 'main.html';</script>";
+                            $_SESSION['roleID'] = (int)mysqli_fetch_assoc($resultRoleID)['roleID'];
+                            echo "<script>window.location.href = 'main.php';</script>";
                         }
                         else{
                             echo("Password Incorrect");

@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,28 +14,27 @@
             <div class ="iconContainer" id="logoIconContainer">
                 <img src="assets/svgs/Reqal Logo - Dark Mode.svg">
             </div>
-            <div class ="iconContainer" id="adminIconContainer">
+            <?php
+        
+            $username = $_SESSION['username'] ?? 'Guest';
+            $roleID = $_SESSION['roleID'] ?? 0;
+    
+            if($roleID == 1) {
+                echo('<div class ="iconContainer" id="adminIconContainer">
                 <img src="assets/svgs/protect.svg">
-            </div>
-            <div class ="iconContainer">
-
-            </div>
-            <div class ="iconContainer">
-
-            </div>
-        </div> 
-        <?php
-        
-        
-        echo('
+                </div>');
+            }
+            
+            ?>
+        </div>
+            
         <div class="bottomIcons">
+            
             <div class ="iconContainer" id="accountOptionsIconContainer">
                 <img src="assets/svgs/menu.svg">
             </div>
-        </div>');
+        </div> 
         
-        
-        
-        ?>
+        </div>
     </aside>
 </body>
