@@ -17,7 +17,7 @@
             <?php
         
             $username = $_SESSION['username'] ?? 'Guest';
-            $roleID = $_SESSION['roleID'] ?? 0;
+            $roleID = $_SESSION['roleID'] ?? 1;
     
             if($roleID == 1) {
                 echo('<div class ="iconContainer" id="adminIconContainer">
@@ -26,15 +26,28 @@
             }
             
             ?>
+            
         </div>
             
-        <div class="bottomIcons">
-            
+        <div class="bottomIcons">            
             <div class ="iconContainer" id="accountOptionsIconContainer">
                 <img src="assets/svgs/menu.svg">
             </div>
-        </div> 
-        
         </div>
     </aside>
+
+
+    <div class="content" id="mainContent">
+        <?php
+        echo("<h1>Hi, $username, ready to start language learning?<h1>")
+        ?>
+        
+    </div> 
+    
+    <div class="content inactive" id="adminContent">
+        <h1>Admin Panel</h1>
+
+    </div>
+    <script src="main.js"></script>
 </body>
+</html>

@@ -12,7 +12,7 @@ openAccountCreationModalButton.forEach(button => {
         accountCreationModal.showModal();
     });
 });
-
+1
 closeAccountCreationModalButton.forEach(button => {
     button.addEventListener('click', () => {
         accountCreationModal.close();
