@@ -96,6 +96,7 @@
                         $querySearchUsername = "select * from user where username = '$usernameOrEmail'";
                         $resultEmail = mysqli_query($connection, $querySearchEmail);
                         $resultUsername = mysqli_query($connection, $querySearchUsername);
+                        
                         if( mysqli_num_rows($resultEmail) > 0){
                             $resultPassword = mysqli_query($connection,    "select * from user where email = '$usernameOrEmail' and password = '$password'") ?? '';
                             $_SESSION['email'] = $usernameOrEmail;
@@ -112,7 +113,7 @@
                         $username = mysqli_fetch_assoc($resultUsername)['username'];
                         $resultRoleID = mysqli_query($connection, "select roleID from user where username = '$username'");
 
-                        if( mysqli_num_rows($resultUsername) > 0 or mysqli_num_rows($resultEmail) > 0){
+                        if(( mysqli_num_rows($resultUsername) > 0 or mysqli_num_rows($resultEmail) > 0) and mysqli_num_rows($resultPassword) > 0){
                             $_SESSION['username'] = $username;
                             $_SESSION['roleID'] = (int)mysqli_fetch_assoc($resultRoleID)['roleID'];
                             echo "<script>window.location.href = 'main.php';</script>";
