@@ -46,7 +46,62 @@
     
     <div class="content inactive" id="adminContent">
         <h1>Admin Panel</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Password</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                    
+                    try{
+                        $connection = mysqli_connect('localhost', 'root');
+                        mysqli_select_db($connection,'projetoSI');
+        
+                        if(!$connection){   
+                            echo("Connection failed: " . mysqli_connect_error());   
+                            throw new Exception("");    
+                        }   
 
+                        $resultTableContents = mysqli_query($connection ,"select id, username, name, email, roleID from user ORDER BY ID");
+
+                        if (!$resultTableContents) {
+                            echo("<tr><td colspan='5'>Query failed.</td></tr>");
+                            throw new ErrorException();
+                        }
+
+                        while ($row = mysqli_fetch_assoc($resultTableContents)){
+                            $id = $row['id'] ?? '';
+                            $username = $row['username'] ?? '';
+                            $name = $row['name'] ?? '';
+                            $email = $row['email'] ?? '';
+                            $roleID = $row['roleID'] ?? '';
+                            
+                            echo "<tr>";
+                            echo "<td> <input type=\"text\" class=\"tableInput\" value =\"$id\" id=\"tableInputID\"></td>";
+                            echo "<td> <input type=\"text\" class=\"tableInput\" value =\"$username\" id=\"tableInput\"></td>";
+                            echo "<td> <input type=\"text\" class=\"tableInput\" value =\"$name\" id=\"tableInputName\"></td>";
+                            echo "<td> <input type=\"text\" class=\"tableInput\" value =\"$email\" id=\"tableInputEmail\"></td>";
+                            echo "<td> <input type=\"text\" class=\"tableInput\" value =\"$roleID\" id=\"tableInputRoleID\"></td>";
+                            echo "<td> <input type=\"text\" class=\"tableInput\" placeholder=\"Change Password\"></td>";
+                            echo "</tr>";
+
+                        }
+                    }
+                    catch(Exception $e){
+                    
+                    }
+        
+                    
+                    ?>
+            </tbody>
+        </table>
     </div>
     <script src="main.js"></script>
 </body>

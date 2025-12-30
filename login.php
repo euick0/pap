@@ -97,7 +97,7 @@
                         $resultEmail = mysqli_query($connection, $querySearchEmail);
                         $resultUsername = mysqli_query($connection, $querySearchUsername);
                         
-                        if( mysqli_num_rows($resultEmail) > 0){
+                        if( mysqli_num_rows($resultEmail) or mysqli_num_rows($resultEmail) > 0){
                             $resultPassword = mysqli_query($connection,    "select * from user where email = '$usernameOrEmail' and password = '$password'") ?? '';
                             $_SESSION['email'] = $usernameOrEmail;
                             $resultUsername = mysqli_query($connection,"select username from user where email = '$usernameOrEmail' ") ?? '';

@@ -15,6 +15,7 @@ aside.mainAside {
   margin: 0px;
 }
 
+
 .iconContainer {
   width: 75px;
   height: 75px;
@@ -44,7 +45,44 @@ aside.mainAside {
 }
 
 .inactive{
-    display: none;
+  display: none;
+}
+
+.tableInput{
+  background-color: #3b3d47;
+}
+
+
+#adminContent{
+  justify-content: center;
+  text-align: center;
+}
+
+#adminContent table{
+  margin: 0 auto;
+}
+
+#adminContent th{
+  padding:  15px 0px 0px 5px;
+}
+
+#adminContent input{
+  padding: 5px, 10px;
+  width: 200px;
+  text-align: left;
+  margin: 0px, 5px;
+  border: none;
+  background-color: #33353d;
+  border-radius: 5px;
+}
+
+
+#adminContent thead tr{
+  text-align: left;
+}
+
+#adminContent #tableInputRoleID, #adminContent #tableInputID{
+  width: 40px;
 }
 
 #accountOptionsIconContainer img {
@@ -58,3 +96,4 @@ aside.mainAside {
   height: 50%;
   filter: invert(1);
 }
+
