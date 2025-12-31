@@ -18,6 +18,7 @@
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
         $roleID = $_POST['roleID'] ?? '';
+        $action = $_POST['action'] ?? '';
 
         $connection = mysqli_connect('localhost', 'root');
         mysqli_select_db($connection,'projetoSI');
@@ -46,7 +47,14 @@
         $queryUpdatePassword = "update user set Password = '$password' where id = $id;";
         $queryUpdateRoleID = "update user set RoleID = '$roleID' where id = $id;";
 
+        $queryDeleteUser = "delete from user where id = $id;";
         
+        if ($action == "delete"){
+            $resultDeleteUser = mysqli_query($connection, $queryDeleteUser);
+            if (!$resultDeleteUser) echo "Error: " . mysqli_error($connection) . "<br>";
+            echo "<script>window.location.href = 'main.php';</script>";
+            
+        }
 
         #TODO implementar mudar os cookies se mudarmos o nosso proprio user
 

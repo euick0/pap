@@ -85,15 +85,18 @@
                             $email = $row['email'] ?? '';
                             $roleID = $row['roleID'] ?? '';
                             
-                            echo "<tr> <form class=\"adminTableRowN$i\" action=\"updateUserRow.php\" method=\"post\">";
-                            echo "<td> <input type=\"text\" class=\"tableInput\" name =\"id\" value =\"$id\" id=\"tableInputID\" readonly></td>";
-                            echo "<td> <input type=\"text\" class=\"tableInput\" name =\"username\" value =\"$username\" id=\"tableInput\"></td>";
-                            echo "<td> <input type=\"text\" class=\"tableInput\" name =\"name\" value =\"$name\" id=\"tableInputName\"></td>";
-                            echo "<td> <input type=\"text\" class=\"tableInput\" name =\"email\" value =\"$email\" id=\"tableInputEmail\"></td>";
-                            echo "<td> <input type=\"text\" class=\"tableInput\" name =\"roleID\" value =\"$roleID\" id=\"tableInputRoleID\"></td>";
-                            echo "<td> <input type=\"text\" class=\"tableInput\" name =\"password\" placeholder=\"Change Password\"></td>";
-                            echo "<td><button type=\"submit\">Update Row</td>";
-                            echo "</form> </tr>";
+                            #TODO adicionar apagar users
+                            echo '<tr> <form class="adminTableRowN' . $i . '" action="updateUserRow.php" method="post">';
+                            echo '<td> <input type="text" class="tableInput" name ="id" value ="' . $id . '" id="tableInputID" readonly></td>';
+                            echo '<td> <input type="text" class="tableInput" name ="username" value ="' . $username . '" id="tableInput"></td>';
+                            echo '<td> <input type="text" class="tableInput" name ="name" value ="' . $name . '" id="tableInputName"></td>';
+                            echo '<td> <input type="text" class="tableInput" name ="email" value ="' . $email . '" id="tableInputEmail"></td>';
+                            echo '<td> <input type="text" class="tableInput" name ="roleID" value ="' . $roleID . '" id="tableInputRoleID"></td>';
+                            echo '<td> <input type="text" class="tableInput" name ="password" placeholder="Change Password"></td>';
+                            echo '<td><button type="submit" name="action" value="update" class="adminPanelButton">Update Row</td>';
+                            echo '<td><button type="submit" name="action" value="delete" class="adminPanelButton" id="deleteAdminRowButton"><img src="assets/svgs/trash.svg"></td>';
+                            echo '</form>';
+                            echo '</tr>';
                             
                             $i +=1;
                         }
@@ -108,7 +111,13 @@
         </table>
 
     <div class="popUp" id="adminPopUp">
-
+        <?php
+        
+        
+        
+        
+        
+        ?>
     </div> 
         
     </div>
