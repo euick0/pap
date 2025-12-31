@@ -86,14 +86,14 @@
                             $roleID = $row['roleID'] ?? '';
                             
                             echo "<tr> <form class=\"adminTableRowN$i\" action=\"updateUserRow.php\" method=\"post\">";
-                            echo "<td> <input type=\"text\" class=\"tableInput\" name =\"ID\" value =\"$id\" id=\"tableInputID\" readonly></td>";
+                            echo "<td> <input type=\"text\" class=\"tableInput\" name =\"id\" value =\"$id\" id=\"tableInputID\" readonly></td>";
                             echo "<td> <input type=\"text\" class=\"tableInput\" name =\"username\" value =\"$username\" id=\"tableInput\"></td>";
                             echo "<td> <input type=\"text\" class=\"tableInput\" name =\"name\" value =\"$name\" id=\"tableInputName\"></td>";
                             echo "<td> <input type=\"text\" class=\"tableInput\" name =\"email\" value =\"$email\" id=\"tableInputEmail\"></td>";
                             echo "<td> <input type=\"text\" class=\"tableInput\" name =\"roleID\" value =\"$roleID\" id=\"tableInputRoleID\"></td>";
                             echo "<td> <input type=\"text\" class=\"tableInput\" name =\"password\" placeholder=\"Change Password\"></td>";
                             echo "<td><button type=\"submit\">Update Row</td>";
-                            echo "<form> </tr>";
+                            echo "</form> </tr>";
                             
                             $i +=1;
                         }
@@ -107,7 +107,9 @@
             </tbody>
         </table>
 
-        
+    <div class="popUp" id="adminPopUp">
+
+    </div> 
         
     </div>
     <script src="main.js"></script>
