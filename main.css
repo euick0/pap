@@ -71,6 +71,16 @@ aside.mainAside {
   background-color: #e92560;
 }
 
+#addUserAdminRowButton{
+  background-color: #8DCB42;
+  width: 100%;
+  margin: 10px;
+}
+
+#addUserAdminRowButton:hover{
+  background-color: #76a838;
+}
+
 #deleteAdminRowButton img{
   height: 20px;
   padding: 2px 5px;
@@ -129,10 +139,3 @@ aside.mainAside {
   height: 50%;
   filter: invert(1);
 }
-
-
-
-
-
-
-

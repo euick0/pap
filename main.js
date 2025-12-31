@@ -3,7 +3,7 @@ const adminContainer = document.querySelector('#adminIconContainer');
 const adminContent = document.querySelector('#adminContent');
 const logoContainer = document.querySelector('#logoIconContainer');
 const mainContent = document.querySelector("#mainContent")
-
+const adminPopUp = document.getElementById('adminPopUp');
 
 adminContainer.addEventListener('click',() =>{
     disableAllContents();
@@ -22,3 +22,11 @@ function disableAllContents(){
         }
     });
 }
+
+if (adminPopUp && adminPopUp.textContent.trim() !== '') {
+    disableAllContents();
+    adminContent.classList.remove("inactive")
+    adminPopUp.classList.add('show');
+    setTimeout(() => adminPopUp.classList.remove('show'), 5000);
+}
+

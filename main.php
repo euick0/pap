@@ -59,6 +59,7 @@
             </thead>
             <tbody>
                 <?php
+                    #TODO implementar pesquisa de utilizadores
                     
                     try{
                         $connection = mysqli_connect('localhost', 'root');
@@ -85,7 +86,6 @@
                             $email = $row['email'] ?? '';
                             $roleID = $row['roleID'] ?? '';
                             
-                            #TODO adicionar apagar users
                             echo '<tr> <form class="adminTableRowN' . $i . '" action="updateUserRow.php" method="post">';
                             echo '<td> <input type="text" class="tableInput" name ="id" value ="' . $id . '" id="tableInputID" readonly></td>';
                             echo '<td> <input type="text" class="tableInput" name ="username" value ="' . $username . '" id="tableInput"></td>';
@@ -93,33 +93,38 @@
                             echo '<td> <input type="text" class="tableInput" name ="email" value ="' . $email . '" id="tableInputEmail"></td>';
                             echo '<td> <input type="text" class="tableInput" name ="roleID" value ="' . $roleID . '" id="tableInputRoleID"></td>';
                             echo '<td> <input type="text" class="tableInput" name ="password" placeholder="Change Password"></td>';
-                            echo '<td><button type="submit" name="action" value="update" class="adminPanelButton">Update Row</td>';
-                            echo '<td><button type="submit" name="action" value="delete" class="adminPanelButton" id="deleteAdminRowButton"><img src="assets/svgs/trash.svg"></td>';
-                            echo '</form>';
+                            echo '<td><button type="submit" name="action" value="update" class="adminPanelButton">Update Row</button></td>';
+                            echo '<td><button type="submit" name="action" value="delete" class="adminPanelButton" id="deleteAdminRowButton"><img src="assets/svgs/trash.svg"></button></td>';
                             echo '</tr>';
                             
                             $i +=1;
                         }
+
+                        echo '<tr><td colspan="2"><button type="submit" name="action" value="add" class="adminPanelButton" id="addUserAdminRowButton">Add user</button></td></tr>';
+                        echo '</form>';
+
                     }
+
                     catch(Exception $e){
                     
                     }
         
                     
                     ?>
+                    
             </tbody>
         </table>
 
-    <div class="popUp" id="adminPopUp">
-        <?php
+        <div class="popUp" id="adminPopUp">
+            <?php
+                if (isset($_SESSION['adminMessage'])) {
+                    echo($_SESSION['adminMessage']);
+                    unset($_SESSION['adminMessage']);
+                }
+            ?>
+        </div> 
         
-        
-        
-        
-        
-        ?>
-    </div> 
-        
+    
     </div>
     <script src="main.js"></script>
 </body>
