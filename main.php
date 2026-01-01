@@ -49,7 +49,10 @@
         <table>
             <thead>
                 <tr>
-                    <td>
+                    <td><form>
+                        <input class="searchBox" id="adminTableSearchBox"><img>Search</input>
+                    </form></td>
+                    <td colspan = 2 >
                         <form action="updateUserRow.php" method="post">
                             <button type="submit" name="action" value="add" class="adminPanelButton" id="addUserAdminRowButton">Add user</button>        
                         </form>
@@ -75,7 +78,7 @@
                         if(!$connection){   
                             echo("Connection failed: " . mysqli_connect_error());   
                             throw new Exception("");    
-                        }   
+                        }
 
                         $resultTableContents = mysqli_query($connection ,"select id, username, name, email, roleID from user ORDER BY ID");
 
@@ -93,7 +96,7 @@
                             $email = $row['email'] ?? '';
                             $roleID = $row['roleID'] ?? '';
                             
-                            echo '<tr> <form class="adminTableRowN' . $i . '" action="updateUserRow.php" method="post">';
+                            echo '<tr> <form class="adminTableRowN' . $i . '" action="adminBackend.php" method="post">';
                             echo '<td> <input type="text" class="tableInput" name ="id" value ="' . $id . '" id="tableInputID" readonly></td>';
                             echo '<td> <input type="text" class="tableInput" name ="username" value ="' . $username . '" id="tableInput"></td>';
                             echo '<td> <input type="text" class="tableInput" name ="name" value ="' . $name . '" id="tableInputName"></td>';
@@ -102,13 +105,12 @@
                             echo '<td> <input type="text" class="tableInput" name ="password" placeholder="Change Password"></td>';
                             echo '<td><button type="submit" name="action" value="update" class="adminPanelButton">Update Row</button></td>';
                             echo '<td><button type="submit" name="action" value="delete" class="adminPanelButton" id="deleteAdminRowButton"><img src="assets/svgs/trash.svg"></button></td>';
+                            echo '</form>';
                             echo '</tr>';
                             
                             $i +=1;
                         }
 
-                        echo '<tr><td colspan="2"><button type="submit" name="action" value="add" class="adminPanelButton" id="addUserAdminRowButton">Add user</button></td></tr>';
-                        echo '</form>';
 
                     }
 
@@ -121,15 +123,21 @@
                     
             </tbody>
         </table>
+        <?php
+            if (isset($_SESSION['adminMessageType'])){
+                $adminMessageType = $_SESSION['adminMessageType'];
+            }
+            else{
+                $adminMessageType = "";
+            }
 
-        <div class="popUp" id="adminPopUp">
-            <?php
-                if (isset($_SESSION['adminMessage'])) {
-                    echo($_SESSION['adminMessage']);
-                    unset($_SESSION['adminMessage']);
-                }
-            ?>
-        </div> 
+            if (isset($_SESSION['adminMessage'])) {
+                echo(' <div class="popUp '.$adminMessageType.'" id="adminPopUp">
+                    '.  $_SESSION['adminMessage'] . '
+                </div>');
+                unset($_SESSION['adminMessage']);
+            }
+        ?> 
         
     
     </div>

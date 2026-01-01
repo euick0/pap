@@ -71,14 +71,18 @@ aside.mainAside {
   background-color: #e92560;
 }
 
+.successPopUp{
+  background-color: #6EC72D;
+}
+
+.successPopUp:hover{
+  background-color: #5da826;
+}
+
 #addUserAdminRowButton{
   background-color: #8DCB42;
   width: 100%;
   margin: 10px;
-}
-
-#addUserAdminRowButton:hover{
-  background-color: #76a838;
 }
 
 #deleteAdminRowButton img{

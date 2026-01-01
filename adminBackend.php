@@ -25,8 +25,9 @@
         mysqli_select_db($connection,'projetoSI');
 
         if(!$connection){
-            echo("Connection failed: " . mysqli_connect_error());
-            throw new Exception("");    
+            $_SESSION['adminMessage'] =  "Error: " . mysqli_connect_error() . "";
+            $_SESSION['adminMessageType'] = "ERROR";  
+            echo "<script>window.location.href = 'main.php';</script>";
         }
 
         $queryCheckUsername  = "select * from user where username = '$username' and roleID = $roleID;";
@@ -48,27 +49,49 @@
         $queryUpdateRoleID = "update user set RoleID = '$roleID' where id = $id;";
 
         $queryDeleteUser = "delete from user where id = $id;";
-        
-        #TODO implementar diferença entre erros e feedback do popup
-        
+                
         if ($action == "delete"){
             $resultDeleteUser = mysqli_query($connection, $queryDeleteUser);
             $_SESSION['adminMessage'] = "User $name deleted successfully";
-            if (!$resultDeleteUser) $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
+            $_SESSION['adminMessageType'] = "successPopUp";
+
+            if (!$resultDeleteUser){
+                $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
+                $_SESSION['adminMessageType'] = "errorPopUp";
+            } 
+
             echo "<script>window.location.href = 'main.php';</script>";
+            throw new Exception("");
         }
         
         if($action == "add"){
-            $querySelectLastID = "select max(id) from user;";
+            $querySelectLastID = "SELECT MAX(id) AS max_id FROM user;";
             $resultSelectLastID = mysqli_query($connection, $querySelectLastID);
-            $id = (int)mysqli_fetch_assoc($resultSelectLastID)['id'] + 1;
 
-            $queryAddUser = "insert into user (username, name, email, password, roleID) values ('newUserName$id', 'newUser$id', 'newUser$id@email.com','newUserPassword$id', '3')";
+            if (!$resultSelectLastID) {
+                $_SESSION['adminMessage'] = "Error: " . mysqli_error($connection);
+                $_SESSION['adminMessageType'] = "errorPopUp";
+                echo "<script>window.location.href = 'main.php';</script>";
+                exit;
+            }
+
+            $row = mysqli_fetch_assoc($resultSelectLastID);
+            $nextID = ((int)($row['max_id'] ?? 0)) + 1;
+
+            $queryAddUser = "insert into user (username, name, email, password, roleID) values ('newUserName$nextID', 'newUser$nextID', 'newUser$nextID@email.com','newUserPassword$nextID', '3')";
             $resultAddUser = mysqli_query($connection, $queryAddUser);
 
-            $_SESSION['adminMessage'] = "New user added successfully";
-            if (!$resultAddUser or !$resultSelectLastID) $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
+            if ($resultAddUser) {
+                $_SESSION['adminMessage'] = "New user added successfully";
+                $_SESSION['adminMessageType'] = "successPopUp";
+
+            } else {
+                $_SESSION['adminMessage'] = "Error: " . mysqli_error($connection);
+                $_SESSION['adminMessageType'] = "errorPopUp";
+            }
+
             echo "<script>window.location.href = 'main.php';</script>";
+
         }
 
         #TODO implementar mudar os cookies se mudarmos o nosso proprio user
@@ -77,34 +100,50 @@
         #o seu conteudo, logo temos que altera-las
         if(mysqli_num_rows($resultCheckUsername) == 0 ){
             $resultUpdateUsername = mysqli_query($connection, $queryUpdateUsername);
-            if (!$resultUpdateUsername) $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
+            if (!$resultUpdateUsername){
+                $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
+                $_SESSION['adminMessageType'] = "errorPopUp";
+            }
         }
         
         
         if(mysqli_num_rows($resultCheckName) == 0 ){
             $resultUpdateName = mysqli_query($connection, $queryUpdateName);
-            if (!$resultUpdateName) $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
+            if (!$resultUpdateName){
+                $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
+                $_SESSION['adminMessageType'] = "errorPopUp";
+            }
         }
         
         
         if(mysqli_num_rows($resultCheckEmail) == 0 ){
             $resultUpdateEmail = mysqli_query($connection, $queryUpdateEmail);
-            if (!$resultUpdateEmail) $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
+            if (!$resultUpdateEmail){
+                $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
+                $_SESSION['adminMessageType'] = "errorPopUp";
+            }
         }
         
         
         if(mysqli_num_rows($resultCheckRoleID) == 0 ){
             $resultUpdateRoleID = mysqli_query($connection, $queryUpdateRoleID);
-            if (!$resultUpdateRoleID) $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
+            if (!$resultUpdateRoleID){
+                $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
+                $_SESSION['adminMessageType'] = "errorPopUp";
+            }
         }
         
         
         if(mysqli_num_rows($resultCheckPassword) == 0 and $password != ''){
             $resultUpdatePassword = mysqli_query($connection, $queryUpdatePassword);    
-            if (!$resultUpdatePassword) $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
+            if (!$resultUpdatePassword){
+                $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
+                $_SESSION['adminMessageType'] = "errorPopUp";
+            }
         }
         
-
+        $_SESSION['adminMessage'] =  "User updated successfully";
+        $_SESSION['adminMessageType'] = "successPopUp";
         echo "<script>window.location.href = 'main.php';</script>";
     }    
 
