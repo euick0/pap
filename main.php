@@ -49,6 +49,13 @@
         <table>
             <thead>
                 <tr>
+                    <td>
+                        <form action="updateUserRow.php" method="post">
+                            <button type="submit" name="action" value="add" class="adminPanelButton" id="addUserAdminRowButton">Add user</button>        
+                        </form>
+                    </td>
+                </tr>
+                <tr>
                     <th>ID</th>
                     <th>Username</th>
                     <th>Name</th>

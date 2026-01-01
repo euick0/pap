@@ -25,7 +25,6 @@
         mysqli_select_db($connection,'projetoSI');
 
         if(!$connection){
-            #TODO implementar msg de erro na pagina de admin 
             echo("Connection failed: " . mysqli_connect_error());
             throw new Exception("");    
         }
@@ -60,11 +59,15 @@
         }
         
         if($action == "add"){
-            $id += 1;
+            $querySelectLastID = "select max(id) from user;";
+            $resultSelectLastID = mysqli_query($connection, $querySelectLastID);
+            $id = (int)mysqli_fetch_assoc($resultSelectLastID)['id'] + 1;
+
             $queryAddUser = "insert into user (username, name, email, password, roleID) values ('newUserName$id', 'newUser$id', 'newUser$id@email.com','newUserPassword$id', '3')";
             $resultAddUser = mysqli_query($connection, $queryAddUser);
+
             $_SESSION['adminMessage'] = "New user added successfully";
-            if (!$resultAddUser) $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
+            if (!$resultAddUser or !$resultSelectLastID) $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
             echo "<script>window.location.href = 'main.php';</script>";
         }
 
