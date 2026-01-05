@@ -79,11 +79,48 @@ aside.mainAside {
   background-color: #5da826;
 }
 
+#adminTableSearchContainer button{
+  height: 27px;
+  width: 27px;
+  padding: 0px;
+  margin: 10px;
+}
+
+#adminContentSearchContainer input{
+  margin-left: 0px;
+}
+
+#adminContentSearchContainer button:focus{
+  border-color: white;
+  outline: none;
+}
+
+#adminTableSearchContainer{
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#adminTableSearchIcon{
+  width: 15px;
+  filter: invert(1)
+}
+
 #addUserAdminRowButton{
   background-color: #8DCB42;
   width: 100%;
   margin: 10px;
 }
+
+#adminTableSearchBox{
+  padding-left: 32px; 
+}
+
+#updateAdminRowButton{
+  background-color: #FABB18;
+}
+
 
 #deleteAdminRowButton img{
   height: 20px;

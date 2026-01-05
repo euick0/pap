@@ -39,7 +39,7 @@
 
     <div class="content" id="mainContent">
         <?php
-        echo("<h1>Hi, $username, ready to start language learning?<h1>")
+            echo("<h1>Hi, $username, ready to start language learning?<h1>")
         ?>
         
     </div> 
@@ -49,11 +49,15 @@
         <table>
             <thead>
                 <tr>
-                    <td><form>
-                        <input class="searchBox" id="adminTableSearchBox"><img>Search</input>
-                    </form></td>
-                    <td colspan = 2 >
-                        <form action="updateUserRow.php" method="post">
+                    <td colspan=2>
+                        <form action="adminBackend.php" method="post">
+                            <div id="adminTableSearchContainer">
+                                <input class="searchBox" id="adminTableSearchBox" placeholder="Search" name="search">
+                                <button type="submit" name="action" value="search"><img src ="assets/svgs/search.svg" id="adminTableSearchIcon"></button>
+                            </div>
+                        </form></td>
+                    <td colspan = 1>
+                        <form action="adminBackend.php" method="post">
                             <button type="submit" name="action" value="add" class="adminPanelButton" id="addUserAdminRowButton">Add user</button>        
                         </form>
                     </td>
@@ -69,7 +73,6 @@
             </thead>
             <tbody>
                 <?php
-                    #TODO implementar pesquisa de utilizadores
                     
                     try{
                         $connection = mysqli_connect('localhost', 'root');
@@ -89,6 +92,46 @@
                         
                         $i = 0;
 
+
+                        if(isset($_SESSION['globalSearchIds'])){
+                            
+                            foreach($_SESSION['globalSearchIds'] as $rowID){
+                                $querySelectUserFromID = "select id, username, name, email, roleID from user where id = $rowID;";
+                                $resultSelectUserFromID = mysqli_query($connection, $querySelectUserFromID);
+                                
+                                if(!$resultSelectUserFromID){
+                                    echo("<tr><td colspan='5'>Query failed.</td></tr>");
+                                    throw new Exception("");
+                                }
+
+                                $userRow = mysqli_fetch_assoc($resultSelectUserFromID);
+                                if ($userRow) {
+                                    $id       = $userRow['id'];
+                                    $username = $userRow['username'];
+                                    $name     = $userRow['name'];
+                                    $email    = $userRow['email'];
+                                    $roleID   = $userRow['roleID']; 
+                                }
+
+                                echo '<tr> <form class="adminTableRowN' . $i . '" action="adminBackend.php" method="post">';
+                                echo '<td> <input type="text" class="tableInput" name ="id" value ="' . $id . '" id="tableInputID" readonly></td>';
+                                echo '<td> <input type="text" class="tableInput" name ="username" value ="' . $username . '" id="tableInput"></td>';
+                                echo '<td> <input type="text" class="tableInput" name ="name" value ="' . $name . '" id="tableInputName"></td>';
+                                echo '<td> <input type="text" class="tableInput" name ="email" value ="' . $email . '" id="tableInputEmail"></td>';
+                                echo '<td> <input type="text" class="tableInput" name ="roleID" value ="' . $roleID . '" id="tableInputRoleID"></td>';
+                                echo '<td> <input type="text" class="tableInput" name ="password" placeholder="Change Password"></td>';
+                                echo '<td><button type="submit" name="action" value="update" class="adminPanelButton" c">Update Row</button></td>';
+                                echo '<td><button type="submit" name="action" value="delete" class="adminPanelButton" id="deleteAdminRowButton"><img src="assets/svgs/trash.svg"></button></td>';
+                                echo '</form>';
+                                echo '</tr>';
+
+                                $i += 1;
+                            }
+                            #TODO mudar dinamicamente o que esta pesquisado ou nao
+                            unset($_SESSION['globalSearchIds']);
+                            throw new Exception("");
+                        }
+
                         while ($row = mysqli_fetch_assoc($resultTableContents)){
                             $id = $row['id'] ?? '';
                             $username = $row['username'] ?? '';
@@ -103,7 +146,7 @@
                             echo '<td> <input type="text" class="tableInput" name ="email" value ="' . $email . '" id="tableInputEmail"></td>';
                             echo '<td> <input type="text" class="tableInput" name ="roleID" value ="' . $roleID . '" id="tableInputRoleID"></td>';
                             echo '<td> <input type="text" class="tableInput" name ="password" placeholder="Change Password"></td>';
-                            echo '<td><button type="submit" name="action" value="update" class="adminPanelButton">Update Row</button></td>';
+                            echo '<td><button type="submit" name="action" value="update" class="adminPanelButton" id="updateAdminRowButton">Update Row</button></td>';
                             echo '<td><button type="submit" name="action" value="delete" class="adminPanelButton" id="deleteAdminRowButton"><img src="assets/svgs/trash.svg"></button></td>';
                             echo '</form>';
                             echo '</tr>';
