@@ -1,9 +1,12 @@
 const contents = document.querySelectorAll(".content");
 const adminContainer = document.querySelector('#adminIconContainer');
 const adminContent = document.querySelector('#adminContent');
+const accountOptionsContainer = document.getElementById('accountOptionsIconContainer');
 const logoContainer = document.querySelector('#logoIconContainer');
 const mainContent = document.querySelector("#mainContent")
 const adminPopUp = document.getElementById('adminPopUp');
+const accountOptionsContent = document.getElementById('accountOptionsContent');
+
 
 adminContainer.addEventListener('click',() =>{
     disableAllContents();
@@ -14,6 +17,12 @@ logoContainer.addEventListener('click',() =>{
     disableAllContents();
     mainContent.classList.remove("inactive")
 });
+
+accountOptionsContainer.addEventListener('click',() =>{
+    disableAllContents();
+    accountOptionsContent.classList.remove("inactive")
+});
+
 
 function disableAllContents(){
     contents.forEach(content => {

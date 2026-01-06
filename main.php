@@ -39,10 +39,16 @@
 
     <div class="content" id="mainContent">
         <?php
-            echo("<h1>Hi, $username, ready to start language learning?<h1>")
+            echo("<h1>Hi, $username, ready to start language learning?<h1>");
         ?>
         
-    </div> 
+    </div>
+    <div class="content inactive" id="accountOptionsContent">
+        <h1>Account Options</h1>
+        <form action="adminBackend.php" method="post" id="logOutForm">
+            <button type="submit" name="action" value="logOut" id="logOutAccountOptionsButton">Log Out</button>
+        </form>        
+    </div>
     
     <div class="content inactive" id="adminContent">
         <h1>Admin Panel</h1>
@@ -127,6 +133,7 @@
 
                                 $i += 1;
                             }
+                            #TODO fazer a barra lateral nao dar scroll
                             #TODO mudar dinamicamente o que esta pesquisado ou nao
                             unset($_SESSION['globalSearchIds']);
                             throw new Exception("");

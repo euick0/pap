@@ -6,7 +6,7 @@
         if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
             echo "<script>window.location.href = 'index.html';</script>";
         }
-
+        
         $id = $_POST['id'] ?? '';
         $username = $_POST['username'] ?? '';
         $name = $_POST['name'] ?? '';
@@ -16,6 +16,11 @@
         $search = $_POST['search'] ?? '';
         $action = $_POST['action'] ?? '';
         
+        if ($action === "logOut"){
+            unset($_SESSION);
+            echo "<script>window.location.href = 'index.html';</script>";
+        }
+
         $queryCheckUsername  = "select * from user where username = '$username' and roleID = $roleID;";
         $queryCheckEmail = "select * from user where email = '$email' and roleID = $roleID;";
         $queryCheckRoleID = "select * from user where RoleID = '$roleID' and roleID = $roleID;";
