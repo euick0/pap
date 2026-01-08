@@ -15,17 +15,22 @@
         $roleID = $_POST['roleID'] ?? '';
         $search = $_POST['search'] ?? '';
         $action = $_POST['action'] ?? '';
+
+        $currentEmail = $_SESSION['email'] ?? '';
+        $currentUsername = $_SESSION['username'] ?? '';
         
         if ($action === "logOut"){
             unset($_SESSION);
             echo "<script>window.location.href = 'index.html';</script>";
         }
 
-        $queryCheckUsername  = "select * from user where username = '$username' and roleID = $roleID;";
-        $queryCheckEmail = "select * from user where email = '$email' and roleID = $roleID;";
-        $queryCheckRoleID = "select * from user where RoleID = '$roleID' and roleID = $roleID;";
-        $queryCheckName = "select * from user where name= '$name' and roleID = $roleID;";
-        $queryCheckPassword = "select * from user where password= '$password' and roleID = $roleID;";
+        $queryCheckUsername  = "select * from user where username = '$username' and id = $id;";
+        $queryCheckEmail = "select * from user where email = '$email' and id = $id;";
+        $queryCheckRoleID = "select * from user where RoleID = '$id' and id = $id;";
+        $queryCheckName = "select * from user where name= '$name' and id = $id;";
+        $queryCheckPassword = "select * from user where (password = SHA2('$password', 256) or password= '$password') and id = $id;";
+
+        $queryCheckCurrentUserID = "select id from user where email = '$currentEmail' or username = '$currentUsername';";
         
         $connection = mysqli_connect('localhost', 'root');
         mysqli_select_db($connection,'projetoSI');
@@ -35,13 +40,19 @@
             $_SESSION['adminMessageType'] = "ERROR";  
             echo "<script>window.location.href = 'main.php';</script>";
         }
+
+        $passwordEsc = mysqli_real_escape_string($connection, $password);
+        // Override password-related queries to use the escaped password
+        // (still stored/compared as SHA2(…,256), with legacy plaintext fallback).
+        $queryCheckPassword = "select * from user where (password = SHA2('$passwordEsc', 256) or password= '$passwordEsc') and id = $id;";
         
         $queryUpdateUsername = "update user set username = '$username' where id = $id;";
         $queryUpdateEmail = "update user set Email = '$email' where id = $id;";
         $queryUpdateName = "update user set Name = '$name' where id = $id;";
-        $queryUpdatePassword = "update user set Password = '$password' where id = $id;";
+        $queryUpdatePassword = "update user set Password = SHA2('$passwordEsc', 256) where id = $id;";
         $queryUpdateRoleID = "update user set RoleID = '$roleID' where id = $id;";
         $queryDeleteUser = "delete from user where id = $id;";
+
 
         if($action === "add"){
             $querySelectLastID = "SELECT MAX(id) AS max_id FROM user;";
@@ -58,7 +69,7 @@
             $row = mysqli_fetch_assoc($resultSelectLastID);
             $nextID = ((int)($row['max_id'] ?? 0)) + 1;
 
-            $queryAddUser = "insert into user (username, name, email, password, roleID) values ('newUserName$nextID', 'newUser$nextID', 'newUser$nextID@email.com','newUserPassword$nextID', '3')";
+            $queryAddUser = "insert into user (username, name, email, password, roleID) values ('newUserName$nextID', 'newUser$nextID', 'newUser$nextID@email.com', SHA2('newUserPassword$nextID', 256), '3')";
             $resultAddUser = mysqli_query($connection, $queryAddUser);
 
             if ($resultAddUser) {
@@ -70,12 +81,19 @@
                 $_SESSION['adminMessageType'] = "errorPopUp";
             }
 
+            unset($_SESSION['globalSearchIds']);
+            unset($_SESSION['searchQuery']);
             echo "<script>window.location.href = 'main.php';</script>";
             throw new Exception("");
         }
 
         
         if($action === "search"){
+            if($search == ""){
+                unset($_SESSION['globalSearchIds']);
+                $_SESSION['adminMessageType'] = "successPopUp";
+                echo "<script>window.location.href = 'main.php';</script>";
+            }
             $queryGlobalSearch = "select id from user where id like '%$search%' or username like '%$search%' or name like '%$search%' or email like '%$search%' or roleID like '%$search%';";
             $resultGlobalSearch = mysqli_query($connection, $queryGlobalSearch);
 
@@ -92,6 +110,7 @@
             }
 
             $_SESSION['globalSearchIds'] = $ids; 
+            $_SESSION['searchQuery'] = $search;
             $_SESSION['adminMessage'] = "Search found ".count($ids)." results";
             $_SESSION['adminMessageType'] = "successPopUp";
             echo "<script>window.location.href = 'main.php';</script>";
@@ -102,8 +121,22 @@
         $resultCheckRoleID = mysqli_query($connection, $queryCheckRoleID);
         $resultCheckName = mysqli_query($connection, $queryCheckName);
         $resultCheckPassword =  mysqli_query($connection, $queryCheckPassword);
+        $resultCheckCurrentUserID = mysqli_query($connection, $queryCheckCurrentUserID);
+
+        if($resultCheckCurrentUserID){
+            $rowCheckCurrentUserID = mysqli_fetch_assoc($resultCheckCurrentUserID);
+            $currentID = $rowCheckCurrentUserID ? (int)$rowCheckCurrentUserID['id'] : null;
+        }
         
         if ($action === "delete"){
+            
+            if($currentID == $id){
+                $resultDeleteUser = mysqli_query($connection, $queryDeleteUser);
+                unset($_SESSION["username"]);
+                unset($_SESSION["email"]);
+                unset($_SESSION["roleID"]);
+                echo "<script>window.location.href = 'index.html';</script>";
+            }
             $resultDeleteUser = mysqli_query($connection, $queryDeleteUser);
             $_SESSION['adminMessage'] = "User $name deleted successfully";
             $_SESSION['adminMessageType'] = "successPopUp";
@@ -113,19 +146,22 @@
                 $_SESSION['adminMessageType'] = "errorPopUp";
             } 
 
+
             echo "<script>window.location.href = 'main.php';</script>";
             throw new Exception("");
         }
         
-        #TODO implementar mudar os cookies se mudarmos o nosso proprio user
 
         #se as queries de verificar nao retornarem nada, quer dizer que o admin mudou
         #o seu conteudo, logo temos que altera-las
         if(mysqli_num_rows($resultCheckUsername) == 0 ){
             $resultUpdateUsername = mysqli_query($connection, $queryUpdateUsername);
-            if (!$resultUpdateUsername){
+            if (!$resultUpdateUsername ){
                 $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
                 $_SESSION['adminMessageType'] = "errorPopUp";
+            }
+            if($currentID === $id){
+                $_SESSION["username"] = $username;
             }
         }
         
@@ -145,6 +181,9 @@
                 $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
                 $_SESSION['adminMessageType'] = "errorPopUp";
             }
+            if($currentID === $id){
+                $_SESSION["email"] = $email;
+            }
         }
         
         
@@ -153,6 +192,9 @@
             if (!$resultUpdateRoleID){
                 $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
                 $_SESSION['adminMessageType'] = "errorPopUp";
+            }
+            if($currentID === $id){
+                $_SESSION["roleID"] = $roleID;
             }
         }
         

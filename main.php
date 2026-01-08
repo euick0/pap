@@ -58,7 +58,16 @@
                     <td colspan=2>
                         <form action="adminBackend.php" method="post">
                             <div id="adminTableSearchContainer">
-                                <input class="searchBox" id="adminTableSearchBox" placeholder="Search" name="search">
+                                <?php
+                                #TODO encriptar localmente passwords
+                                    $searchQuery = "";
+                                    if(isset($_SESSION['searchQuery'])){
+                                        $searchQuery = $_SESSION['searchQuery'];
+                                    }   
+                                
+                                    echo('<input class="searchBox" id="adminTableSearchBox" placeholder="Search" name="search" value= '.$searchQuery.'>')
+                                
+                                ?>
                                 <button type="submit" name="action" value="search"><img src ="assets/svgs/search.svg" id="adminTableSearchIcon"></button>
                             </div>
                         </form></td>
@@ -101,6 +110,7 @@
 
                         if(isset($_SESSION['globalSearchIds'])){
                             
+
                             foreach($_SESSION['globalSearchIds'] as $rowID){
                                 $querySelectUserFromID = "select id, username, name, email, roleID from user where id = $rowID;";
                                 $resultSelectUserFromID = mysqli_query($connection, $querySelectUserFromID);
@@ -112,30 +122,29 @@
 
                                 $userRow = mysqli_fetch_assoc($resultSelectUserFromID);
                                 if ($userRow) {
-                                    $id       = $userRow['id'];
-                                    $username = $userRow['username'];
-                                    $name     = $userRow['name'];
-                                    $email    = $userRow['email'];
-                                    $roleID   = $userRow['roleID']; 
+                                    $id       = $userRow['id'] ?? '';
+                                    $username = $userRow['username'] ?? '';
+                                    $name     = $userRow['name'] ?? '';
+                                    $email    = $userRow['email'] ?? '';
+                                    $roleID   = $userRow['roleID'] ?? '' ;
+
+                                    
+                                    echo '<tr> <form class="adminTableRowN' . $i . '" action="adminBackend.php" method="post">';
+                                    echo '<td> <input type="text" class="tableInput" name ="id" value ="' . $id . '" id="tableInputID" readonly></td>';
+                                    echo '<td> <input type="text" class="tableInput" name ="username" value ="' . $username . '" id="tableInput"></td>';
+                                    echo '<td> <input type="text" class="tableInput" name ="name" value ="' . $name . '" id="tableInputName"></td>';
+                                    echo '<td> <input type="text" class="tableInput" name ="email" value ="' . $email . '" id="tableInputEmail"></td>';
+                                    echo '<td> <input type="text" class="tableInput" name ="roleID" value ="' . $roleID . '" id="tableInputRoleID"></td>';
+                                    echo '<td> <input type="text" class="tableInput" name ="password" placeholder="Change Password"></td>';
+                                    echo '<td><button type="submit" name="action" value="update" class="adminPanelButton" id="updateAdminRowButton">Update Row</button></td>';
+                                    echo '<td><button type="submit" name="action" value="delete" class="adminPanelButton" id="deleteAdminRowButton"><img src="assets/svgs/trash.svg"></button></td>';
+                                    echo '</form>';
+                                    echo '</tr>';
                                 }
 
-                                echo '<tr> <form class="adminTableRowN' . $i . '" action="adminBackend.php" method="post">';
-                                echo '<td> <input type="text" class="tableInput" name ="id" value ="' . $id . '" id="tableInputID" readonly></td>';
-                                echo '<td> <input type="text" class="tableInput" name ="username" value ="' . $username . '" id="tableInput"></td>';
-                                echo '<td> <input type="text" class="tableInput" name ="name" value ="' . $name . '" id="tableInputName"></td>';
-                                echo '<td> <input type="text" class="tableInput" name ="email" value ="' . $email . '" id="tableInputEmail"></td>';
-                                echo '<td> <input type="text" class="tableInput" name ="roleID" value ="' . $roleID . '" id="tableInputRoleID"></td>';
-                                echo '<td> <input type="text" class="tableInput" name ="password" placeholder="Change Password"></td>';
-                                echo '<td><button type="submit" name="action" value="update" class="adminPanelButton" c">Update Row</button></td>';
-                                echo '<td><button type="submit" name="action" value="delete" class="adminPanelButton" id="deleteAdminRowButton"><img src="assets/svgs/trash.svg"></button></td>';
-                                echo '</form>';
-                                echo '</tr>';
 
                                 $i += 1;
                             }
-                            #TODO fazer a barra lateral nao dar scroll
-                            #TODO mudar dinamicamente o que esta pesquisado ou nao
-                            unset($_SESSION['globalSearchIds']);
                             throw new Exception("");
                         }
 

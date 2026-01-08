@@ -8,11 +8,12 @@ const adminPopUp = document.getElementById('adminPopUp');
 const accountOptionsContent = document.getElementById('accountOptionsContent');
 
 
-adminContainer.addEventListener('click',() =>{
-    disableAllContents();
-    adminContent.classList.remove("inactive")
-});
-
+if (adminContainer && adminContent) {
+    adminContainer.addEventListener('click', () => {
+        disableAllContents();
+        adminContent.classList.remove("inactive");
+    });
+}
 logoContainer.addEventListener('click',() =>{
     disableAllContents();
     mainContent.classList.remove("inactive")
