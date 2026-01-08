@@ -12,6 +12,7 @@
         $name = $_POST['name'] ?? '';
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $roleID = $_POST['roleID'] ?? '';
         $search = $_POST['search'] ?? '';
         $action = $_POST['action'] ?? '';
@@ -20,7 +21,8 @@
         $currentUsername = $_SESSION['username'] ?? '';
         
         if ($action === "logOut"){
-            unset($_SESSION);
+            session_unset();
+            session_destroy();
             echo "<script>window.location.href = 'index.html';</script>";
         }
 
@@ -28,8 +30,6 @@
         $queryCheckEmail = "select * from user where email = '$email' and id = $id;";
         $queryCheckRoleID = "select * from user where RoleID = '$id' and id = $id;";
         $queryCheckName = "select * from user where name= '$name' and id = $id;";
-        $queryCheckPassword = "select * from user where (password = SHA2('$password', 256) or password= '$password') and id = $id;";
-
         $queryCheckCurrentUserID = "select id from user where email = '$currentEmail' or username = '$currentUsername';";
         
         $connection = mysqli_connect('localhost', 'root');
@@ -41,18 +41,12 @@
             echo "<script>window.location.href = 'main.php';</script>";
         }
 
-        $passwordEsc = mysqli_real_escape_string($connection, $password);
-        // Override password-related queries to use the escaped password
-        // (still stored/compared as SHA2(…,256), with legacy plaintext fallback).
-        $queryCheckPassword = "select * from user where (password = SHA2('$passwordEsc', 256) or password= '$passwordEsc') and id = $id;";
-        
         $queryUpdateUsername = "update user set username = '$username' where id = $id;";
         $queryUpdateEmail = "update user set Email = '$email' where id = $id;";
         $queryUpdateName = "update user set Name = '$name' where id = $id;";
-        $queryUpdatePassword = "update user set Password = SHA2('$passwordEsc', 256) where id = $id;";
+        $queryUpdatePassword = "update user set Password = '$hashedPassword' where id = $id;";
         $queryUpdateRoleID = "update user set RoleID = '$roleID' where id = $id;";
         $queryDeleteUser = "delete from user where id = $id;";
-
 
         if($action === "add"){
             $querySelectLastID = "SELECT MAX(id) AS max_id FROM user;";
@@ -120,7 +114,6 @@
         $resultCheckUsername = mysqli_query($connection, $queryCheckUsername);
         $resultCheckRoleID = mysqli_query($connection, $queryCheckRoleID);
         $resultCheckName = mysqli_query($connection, $queryCheckName);
-        $resultCheckPassword =  mysqli_query($connection, $queryCheckPassword);
         $resultCheckCurrentUserID = mysqli_query($connection, $queryCheckCurrentUserID);
 
         if($resultCheckCurrentUserID){
@@ -199,8 +192,9 @@
         }
         
         
-        if(mysqli_num_rows($resultCheckPassword) == 0 and $password != ''){
+        if(is_string($password) && trim($password) !== ''){
             $resultUpdatePassword = mysqli_query($connection, $queryUpdatePassword);    
+
             if (!$resultUpdatePassword){
                 $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
                 $_SESSION['adminMessageType'] = "errorPopUp";

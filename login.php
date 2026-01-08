@@ -82,7 +82,6 @@
                         }
                         $usernameOrEmail = $_POST["usernameOrEmail"] ?? '';
                         $password = $_POST["password"] ?? '';
-
                         $connection = mysqli_connect('localhost', 'root');
                         mysqli_select_db($connection,'projetoSI');
 
@@ -98,12 +97,12 @@
                         $resultUsername = mysqli_query($connection, $querySearchUsername);
                         
                         if( mysqli_num_rows($resultEmail) or mysqli_num_rows($resultEmail) > 0){
-                            $resultPassword = mysqli_query($connection,    "select * from user where email = '$usernameOrEmail' and password = '$password'") ?? '';
+                            $resultPassword = mysqli_query($connection,    "select password from user where email = '$usernameOrEmail'") ?? '';
                             $_SESSION['email'] = $usernameOrEmail;
                             $resultUsername = mysqli_query($connection,"select username from user where email = '$usernameOrEmail' ") ?? '';
                         }
                         elseif( mysqli_num_rows($resultUsername) > 0){
-                            $resultPassword = mysqli_query($connection,    "select * from user where username = '$usernameOrEmail' and password = '$password'") ?? '';
+                            $resultPassword = mysqli_query($connection,    "select password from user where username = '$usernameOrEmail'") ?? '';
                         }
                         else{
                             echo("Username or email not found");
@@ -112,8 +111,12 @@
                         
                         $username = mysqli_fetch_assoc($resultUsername)['username'];
                         $resultRoleID = mysqli_query($connection, "select roleID from user where username = '$username'");
+                        $storedPassword = mysqli_fetch_assoc($resultPassword)['password'] ?? '';
+                        
+                        $isPasswordCorrect = false;
+                        if (password_verify($password, $storedPassword) or((string)$password == (string)$storedPassword)) $isPasswordCorrect = true;
 
-                        if(( mysqli_num_rows($resultUsername) > 0 or mysqli_num_rows($resultEmail) > 0) and mysqli_num_rows($resultPassword) > 0){
+                        if(( mysqli_num_rows($resultUsername) > 0 or mysqli_num_rows($resultEmail) > 0) and $isPasswordCorrect){
                             $_SESSION['username'] = $username;
                             $_SESSION['roleID'] = (int)mysqli_fetch_assoc($resultRoleID)['roleID'];
                             echo "<script>window.location.href = 'main.php';</script>";

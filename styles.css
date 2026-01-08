@@ -8,6 +8,18 @@
     src: url('/assets/fonts/TT\ Interphases\ Pro\ Mono\ Trial\ Bold.ttf') format('truetype');
 }
 
+:root{
+    --font-base: 'Interphases', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+    --text: #ffffff;
+    --muted: rgba(255,255,255,0.75);
+    --bg: #3b3d47;
+    --panel: #33353d;
+    --panel-2: #2a2c33;
+    --border: #3b3d47;
+    --accent: #43BCBB;
+    --accent-2: #CC2054;
+}
+
 
 *{
 

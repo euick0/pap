@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="main.css">
     <title>Main</title>
@@ -15,16 +16,19 @@
                 <img src="assets/svgs/Reqal Logo - Dark Mode.svg">
             </div>
             <?php
-        
-            $username = $_SESSION['username'] ?? 'Guest';
-            $roleID = $_SESSION['roleID'] ?? 1;
-    
-            if($roleID == 1) {
-                echo('<div class ="iconContainer" id="adminIconContainer">
-                <img src="assets/svgs/protect.svg">
-                </div>');
-            }
-            
+                #TODO verificar se tem sessao iniciada antes de entregar o projeto lol 
+                $username = $_SESSION['username'] ?? 'Guest';
+                $roleID = $_SESSION['roleID'] ?? 1;
+                if($roleID == 1 or $roleID == 2){
+                    echo('<div class ="iconContainer" id="contentEditorContainer">
+                        <img src="assets/svgs/edit.svg">
+                    </div>');
+                }
+                if($roleID == 1) {
+                    echo('<div class ="iconContainer" id="adminIconContainer">
+                        <img src="assets/svgs/protect.svg">
+                    </div>');
+                }
             ?>
             
         </div>
@@ -59,7 +63,6 @@
                         <form action="adminBackend.php" method="post">
                             <div id="adminTableSearchContainer">
                                 <?php
-                                #TODO encriptar localmente passwords
                                     $searchQuery = "";
                                     if(isset($_SESSION['searchQuery'])){
                                         $searchQuery = $_SESSION['searchQuery'];
@@ -169,7 +172,7 @@
                             
                             $i +=1;
                         }
-
+                        
 
                     }
 
@@ -197,9 +200,16 @@
                 unset($_SESSION['adminMessage']);
             }
         ?> 
-        
-    
     </div>
+    <div class="content inactive" id="contentEditorContent">
+        <h1>Content Editor</h1>
+        <form method="post" action="contentEditorBackend.php">
+            <textarea id="summernote" name="editorData"></textarea>
+            <button>Update Stuff type shi</button>
+        </form>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

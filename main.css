@@ -42,13 +42,14 @@ aside.mainAside {
 
 .content {
   padding: 25px;
-  width: 100%;
+  width: calc(100% - 75px);
   text-align: center;
   justify-content: center;
+  margin-left: 75px;
 }
 
 .inactive{
-  display: none;
+  display: none !important;
 }
 
 .tableInput{
@@ -172,14 +173,109 @@ aside.mainAside {
   width: 40px;
 }
 
-#accountOptionsIconContainer img {
+#accountOptionsIconContainer img, #adminIconContainer img, #contentEditorContainer img {
   width: 50%;
   height: 50%;
   filter: invert(1);
 }
 
-#adminIconContainer img {
-  width: 50%;
-  height: 50%;
-  filter: invert(1);
+#contentEditorContent{
+  text-align: left;      
+  display: flex;/* editor looks better left-aligned */
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+#contentEditorContent h1{
+  width: min(1000px, 100%);
+  text-align: center;
+}
+
+#contentEditorContent{
+  justify-content: flex-start;
+}
+
+/* Editor frame */
+#contentEditorContent .note-editor.note-frame{
+  width: 100%;
+  border: 1px solid #3b3d47;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #33353d;
+}
+
+/* Toolbar */
+#contentEditorContent .note-toolbar{
+  background: #33353d;
+  border-bottom: 1px solid #3b3d47;
+}
+
+#contentEditorContent .note-btn-group .note-btn{
+  background: #2a2c33;
+  border: 1px solid #3b3d47;
+  color: #fff;
+  border-radius: 8px;
+}
+
+#contentEditorContent .note-btn-group .note-btn:hover{
+  background: #343742;
+}
+
+#contentEditorContent .note-btn-group .note-btn:focus{
+  outline: 2px solid #43BCBB55;
+  outline-offset: 1px;
+}
+
+/* Editing area */
+#contentEditorContent .note-editing-area{
+  background: #2a2c33;
+}
+
+#contentEditorContent .note-editable{
+  background: #2a2c33;
+  color: #fff;
+  font-family: inherit;      /* use site font */
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 16px;
+}
+
+/* Status bar */
+#contentEditorContent .note-statusbar{
+  background: #33353d;
+  border-top: 1px solid #3b3d47;
+}
+
+/* Dropdowns / popovers / modals */
+.note-dropdown-menu,
+.note-popover,
+.note-modal-content{
+  background: #2a2c33 !important;
+  color: #fff !important;
+  border: 1px solid #3b3d47 !important;
+}
+
+.note-dropdown-item:hover{
+  background: #343742 !important;
+}
+
+.note-modal-header,
+.note-modal-footer{
+  background: #33353d !important;
+  border-color: #3b3d47 !important;
+}
+
+.note-modal-body label,
+.note-modal-body .note-form-label{
+  color: #fff !important;
+}
+
+.note-modal-body input,
+.note-modal-body select,
+.note-modal-body textarea{
+  background: #1e1f25 !important;
+  color: #fff !important;
+  border: 1px solid #3b3d47 !important;
+  border-radius: 8px;
 }

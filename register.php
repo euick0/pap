@@ -84,6 +84,7 @@
                         $name = $_POST['name'] ?? '';
                         $email = $_POST['email'] ?? '';
                         $password = $_POST['password'] ?? '';
+                        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
                         $connection = mysqli_connect('localhost', 'root');
                         mysqli_select_db($connection,'projetoSI');
         
@@ -91,12 +92,11 @@
                             echo("Connection failed: " . mysqli_connect_error());
                             throw new Exception("");
                         }
-        
-                        $passwordEsc = mysqli_real_escape_string($connection, $password);
+                        
 
                         $queryCheckEmail = "select * from user where email = '$email'";
                         $queryCheckUsername  = "select * from user where username = '$username'";
-                        $queryInsert = "insert into user(username, name, email, password, roleID) values ('$username', '$name', '$email', SHA2('$passwordEsc', 256), 3);";
+                        $queryInsert = "insert into user(username, name, email, password, roleID) values ('$username', '$name', '$email','$hashedPassword , 3);";
                         $resultEmail = mysqli_query($connection, $queryCheckEmail); 
                         $resultUsername = mysqli_query($connection, $queryCheckUsername);
         
