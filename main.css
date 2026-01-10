@@ -83,6 +83,35 @@ aside.mainAside {
   background-color: #5da826;
 }
 
+.unselected{
+  border: 2px #CC2054 solid;
+  background-color: transparent;
+}
+
+.selected{
+  padding: 7px, 12px;
+}
+
+.unselected:hover{
+  background-color: transparent;
+}
+
+#coursesContainer{
+  display:flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: stretch;
+}
+
+#coursesRow{
+  display:flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 #adminTableSearchContainer button{
   height: 27px;
   width: 27px;
@@ -179,6 +208,12 @@ aside.mainAside {
   filter: invert(1);
 }
 
+
+
+
+
+
+/* summernote */
 #contentEditorContent{
   text-align: left;      
   display: flex;/* editor looks better left-aligned */

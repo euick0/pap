@@ -203,9 +203,79 @@
     </div>
     <div class="content inactive" id="contentEditorContent">
         <h1>Content Editor</h1>
-        <form method="post" action="contentEditorBackend.php">
+        <div id="coursesContainer">
+            <div id="coursesRow">
+                <?php
+                try{
+                    
+                $connection = mysqli_connect('localhost', 'root');
+                mysqli_select_db($connection,'projetoSI');
+
+                if(!$connection){   
+                    echo("Connection failed: " . mysqli_connect_error());   
+                    throw new Exception("");    
+                }
+
+                $querySelectCourses = "select * from courses";
+
+                $resultSelectCourses = mysqli_query($connection, $querySelectCourses);
+
+                if(isset($_SESSION['overrideCourseSelection'])){
+                    $overrideCourseSelection = $_SESSION['overrideCourseSelection'];
+                }
+                #TODO dar redirected a pagina se houver override 
+
+                $i = 1;
+                while ($row = mysqli_fetch_assoc($resultSelectCourses)){
+                    $courseID = $row['courseID'];
+                    $courseName = $row['courseName'];
+
+                    if($i == 1){
+                        $selectedText = "selected";
+                        $_SESSION['selectedCourse'] = 1;
+                    }
+                    else{
+                        $selectedText = "unselected";
+                    }
+
+                    if (isset($overrideCourseSelection)){
+                        if($overrideCourseSelection == $courseID){
+                            $selectedText = "selected";
+                            $_SESSION['selectedCourse'] = $courseID;
+                        }
+                        else{
+                            $selectedText = "unselected";
+                        }
+                    }
+
+                    echo('<form method="post" action="contentEditorBackend.php">');
+                    echo('<button type="submit" class="courseButton adminPanelButton '.$selectedText.'" name="changeCourse" value="'.$courseID.'">'.$courseName.'</button>');
+                    echo('</form>');
+                    $i ++;
+                }
+                unset($overrideCourseSelection);
+
+
+
+                }
+                catch( Exception $e){
+
+                }
+
+                ?>
+            </div>
+
+            
+            <div id="coursesActionsContainer">
+                <button type="submit" name="action" value="deleteCourse">Delete Selected Course and Associated Lessons</button>
+                <input placeholder= "New Course Name" name="newCourseName"></input>
+                <button type="submit" name="action" value="createNewCourse">Create new Course</button>
+            </div>
+        </div>
+        <form method="post" action="contentEditorBackend.php"></form>
             <textarea id="summernote" name="editorData"></textarea>
-            <button>Update Stuff type shi</button>
+            <button>Update Lesson</button>
+            <button>Delete Lesson</button>
         </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
