@@ -94,13 +94,13 @@
                     
                     try{
                         $connection = mysqli_connect('localhost', 'root');
-                        mysqli_select_db($connection,'projetoSI');
-        
+                        
                         if(!$connection){   
                             echo("Connection failed: " . mysqli_connect_error());   
                             throw new Exception("");    
                         }
-
+                            
+                        mysqli_select_db($connection,'projetoSI');
                         $resultTableContents = mysqli_query($connection ,"select id, username, name, email, roleID from user ORDER BY ID");
 
                         if (!$resultTableContents) {
@@ -172,15 +172,12 @@
                             
                             $i +=1;
                         }
-                        
-
+                    
                     }
 
                     catch(Exception $e){
                     
                     }
-        
-                    
                     ?>
                     
             </tbody>
@@ -216,9 +213,13 @@
                     throw new Exception("");    
                 }
 
-                $querySelectCourses = "select * from courses";
-
+                $querySelectCourses = "select * from courses;";
                 $resultSelectCourses = mysqli_query($connection, $querySelectCourses);
+                
+                if (!$resultSelectCourses){
+                    echo("Error: " . mysqli_error($connection));   
+                    throw new Exception("");
+                }
 
                 if(isset($_SESSION['overrideCourseSelection'])){
                     $overrideCourseSelection = $_SESSION['overrideCourseSelection'];
@@ -232,13 +233,13 @@
 
                     if($i == 1){
                         $selectedText = "selected";
-                        $_SESSION['selectedCourse'] = 1;
+                        $_SESSION['selectedCourse'] = $id;
                     }
                     else{
                         $selectedText = "unselected";
                     }
 
-                    if (isset($overrideCourseSelection)){
+                    if (isset($overrideCourseSelection) and $overrideCourseSelection != null){
                         if($overrideCourseSelection == $courseID){
                             $selectedText = "selected";
                             $_SESSION['selectedCourse'] = $courseID;
@@ -247,7 +248,6 @@
                             $selectedText = "unselected";
                         }
                     }
-
                     echo('<form method="post" action="contentEditorBackend.php">');
                     echo('<button type="submit" class="courseButton adminPanelButton '.$selectedText.'" name="changeCourse" value="'.$courseID.'">'.$courseName.'</button>');
                     echo('</form>');
@@ -255,21 +255,33 @@
                 }
                 unset($overrideCourseSelection);
 
+                $querySelectLessons = "select * from lessons where courseID = ".$_SESSION['selectedCourse'].";";
+                $resultSelectLessons = mysqli_query($connection, $querySelectLessons);
 
+                if(!$resultSelectLessons){
+                    echo("Connection failed: " . mysqli_error($connection));
+                    throw new Exception("");    
+                }
+
+                while ($row = mysqli_fetch_assoc($resultSelectLessons)){
+                    $lessonID = $row["lessonID"];
+                    $lessonContent = $row["lessonContent"];
+                    
+                }
 
                 }
                 catch( Exception $e){
-
                 }
-
                 ?>
             </div>
-
             
             <div id="coursesActionsContainer">
-                <button type="submit" name="action" value="deleteCourse">Delete Selected Course and Associated Lessons</button>
-                <input placeholder= "New Course Name" name="newCourseName"></input>
-                <button type="submit" name="action" value="createNewCourse">Create new Course</button>
+                <form method="post" action="contentEditorBackend.php">
+                    <button type="submit" name="action" value="deleteCourse">Delete Selected Course and Associated Lessons</button>
+                    <input placeholder= "New Course Name" name="newCourseName"></input>
+                    <button type="submit" name="action" value="createNewCourse">Create new Course</button>
+                </form>
+
             </div>
         </div>
         <form method="post" action="contentEditorBackend.php"></form>

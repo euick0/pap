@@ -100,8 +100,7 @@
             
             $ids = [];
             while ($row = mysqli_fetch_assoc($resultGlobalSearch)) {
-                $ids[] = (int)$row['id'];
-            }
+                $ids[] = (int)$row['id'];}
 
             $_SESSION['globalSearchIds'] = $ids; 
             $_SESSION['searchQuery'] = $search;
