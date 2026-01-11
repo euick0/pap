@@ -16,6 +16,14 @@
                 <img src="assets/svgs/Reqal Logo - Dark Mode.svg">
             </div>
             <?php
+            $connection = mysqli_connect('localhost', 'root');
+                        
+            if(!$connection){   
+                echo("Connection failed: " . mysqli_connect_error());   
+                throw new Exception("");    
+            }
+                
+            mysqli_select_db($connection,'projetoSI');
                 #TODO verificar se tem sessao iniciada antes de entregar o projeto lol 
                 $username = $_SESSION['username'] ?? 'Guest';
                 $roleID = $_SESSION['roleID'] ?? 1;
@@ -42,10 +50,42 @@
 
 
     <div class="content" id="mainContent">
-        <?php
+        <div class="coursesInfoContainer">
+            <?php
+            #TODO criar novas paginas baseadas nos cursos
+            #TODO ligar tudo automaticamente 
+            try{
             echo("<h1>Hi, $username, ready to start language learning?<h1>");
-        ?>
-        
+            $queryGetLessons = "select * from courses;";
+            $resultGetLessons = mysqli_query($connection, $queryGetLessons);
+
+            if (!$resultGetLessons){
+                echo("Error: " . mysqli_error($connection));   
+                throw new Exception("");
+            }
+
+            $i = 0;
+            while ($row = mysqli_fetch_assoc($resultGetLessons)){
+                $courseName = $row['courseName'] ?? '';
+                $courseID = $row['courseID'] ?? '';
+
+                echo('<div class="courseInfo">
+                <form method="post" action="lessons.php">
+                <button type="submit" name="courseID" value="'.$courseID.'">
+                <h1>'.$courseName.'</h1>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat commodi deleniti neque, consectetur molestias quis est suscipit excepturi dolor hic dolorum, reiciendis adipisci tempore ut minima inventore? Commodi, fuga temporibus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis quidem non veritatis, quaerat quam, iusto quis dignissimos totam dolore doloremque quibusdam magnam ab quae quia. Eos sequi numquam officia reprehenderit!</p>
+                </button>
+                </form>
+            </div>');
+                $i +=1;
+            }
+            }
+            catch(Exception $e){
+
+            }
+
+            ?>
+        </div>
     </div>
     <div class="content inactive" id="accountOptionsContent">
         <h1>Account Options</h1>
@@ -91,16 +131,7 @@
             </thead>
             <tbody>
                 <?php
-                    
-                    try{
-                        $connection = mysqli_connect('localhost', 'root');
-                        
-                        if(!$connection){   
-                            echo("Connection failed: " . mysqli_connect_error());   
-                            throw new Exception("");    
-                        }
-                            
-                        mysqli_select_db($connection,'projetoSI');
+                    try{   
                         $resultTableContents = mysqli_query($connection ,"select id, username, name, email, roleID from user ORDER BY ID");
 
                         if (!$resultTableContents) {
@@ -224,7 +255,8 @@
                 if(isset($_SESSION['overrideCourseSelection'])){
                     $overrideCourseSelection = $_SESSION['overrideCourseSelection'];
                 }
-                #TODO dar redirected a pagina se houver override 
+                #TODO dar redirected a pagina se houver override ou outros
+                #TODO mostrar erros e alladat
 
                 $i = 1;
                 while ($row = mysqli_fetch_assoc($resultSelectCourses)){
@@ -233,7 +265,7 @@
 
                     if($i == 1){
                         $selectedText = "selected";
-                        $_SESSION['selectedCourse'] = $id;
+                        $_SESSION['selectedCourse'] = 1;
                     }
                     else{
                         $selectedText = "unselected";
@@ -253,21 +285,6 @@
                     echo('</form>');
                     $i ++;
                 }
-                unset($overrideCourseSelection);
-
-                $querySelectLessons = "select * from lessons where courseID = ".$_SESSION['selectedCourse'].";";
-                $resultSelectLessons = mysqli_query($connection, $querySelectLessons);
-
-                if(!$resultSelectLessons){
-                    echo("Connection failed: " . mysqli_error($connection));
-                    throw new Exception("");    
-                }
-
-                while ($row = mysqli_fetch_assoc($resultSelectLessons)){
-                    $lessonID = $row["lessonID"];
-                    $lessonContent = $row["lessonContent"];
-                    
-                }
 
                 }
                 catch( Exception $e){
@@ -281,13 +298,81 @@
                     <input placeholder= "New Course Name" name="newCourseName"></input>
                     <button type="submit" name="action" value="createNewCourse">Create new Course</button>
                 </form>
+            </div>
+            <div id="lessonsRow">
+                <?php
+                
+                $querySelectLessons = "select * from lessons where courseID = ".$_SESSION['selectedCourse'].";";
+                $resultSelectLessons = mysqli_query($connection, $querySelectLessons);
 
+                if(!$resultSelectLessons){
+                    echo("Connection failed: " . mysqli_error($connection));
+                    throw new Exception("");    
+                }
+                
+                if(isset($_SESSION['overrideLessonSelection'])){
+                    $overrideLessonSelection = $_SESSION['overrideLessonSelection'];
+                }
+
+                $i = 1;
+                while ($row = mysqli_fetch_assoc($resultSelectLessons)){
+                    $lessonID = $row["lessonID"];
+                    $lessonName = $row["lessonName"];
+                    
+                    if($i == 1){
+                        $selectedText = "selected";
+                        $_SESSION['selectedLesson'] = $lessonID;
+                    }
+                    else{
+                        $selectedText = "unselected";
+                    }
+
+                    if (isset($overrideLessonSelection) and $overrideLessonSelection != null){
+                        if($overrideLessonSelection == $lessonID){
+                            $selectedText = "selected";
+                            $_SESSION['selectedLesson'] = $lessonID;
+                        }
+                        else{
+                            $selectedText = "unselected";
+                        }
+                    }
+
+                    echo('<form method="post" action="contentEditorBackend.php">');
+                    echo('<button type="submit" class="courseButton adminPanelButton '.$selectedText.'" name="changeLesson" value="'.$lessonID.'">'.$lessonName.'</button>');
+                    echo('</form>');
+                    $i ++;
+                }
+            ?>
+            
+            </div>
+            <div id="lessonsActionsContainer">
+                <form method="post" action="contentEditorBackend.php">
+                    <input placeholder= "New Lesson Name" name="newLessonName"></input>
+                    <button type="submit" name="action" value="createNewLesson">Create new Lesson</button>
+                    <button type="submit" name="action" value="updateLesson" form="summerNoteForm">Update Lesson</button>
+                    <button type="submit" name="action" value="deleteLesson">Delete Lesson</button>
+                </form>
             </div>
         </div>
+        <form method="post" action="contentEditorBackend.php" id="summerNoteForm">
+            <?php
+            $selectedLesson = $_SESSION['selectedLesson'];
+            $queryGetLessonContent = "select lessonContent from Lessons where lessonID = $selectedLesson;";
+            $resultGetLessonContent = mysqli_query($connection, $queryGetLessonContent);
+            
+            if(!$resultGetLessonContent){
+                echo("Connection failed: " . mysqli_error($connection));
+                throw new Exception("");    
+            }
+
+            $lessonContent = mysqli_fetch_assoc($resultGetLessonContent)["lessonContent"] ?? '';
+            echo('<textarea id="summernote" name="editorData" ">'.$lessonContent.'</textarea>')
+            ?>
+
+            
+        </form>
+
         <form method="post" action="contentEditorBackend.php"></form>
-            <textarea id="summernote" name="editorData"></textarea>
-            <button>Update Lesson</button>
-            <button>Delete Lesson</button>
         </form>
     </div>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
