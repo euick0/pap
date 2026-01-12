@@ -6,10 +6,36 @@ const accountOptionsContent = document.getElementById('accountOptionsContent');
 const logoContainer = document.querySelector('#logoIconContainer');
 const mainContent = document.querySelector("#mainContent")
 const adminPopUp = document.getElementById('adminPopUp');
+const contentEditorPopUp = document.getElementById('contentEditorPopUp');
 const contentEditorContent = document.getElementById('contentEditorContent');
 const contentEditorContainer = document.getElementById('contentEditorContainer');
 
 let summernoteInitialized = false;
+
+document.addEventListener("DOMContentLoaded", () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const page = urlParams.get('page');
+
+    if (page) {
+        disableAllContents();
+        switch (page) {
+            case 'editor':
+                if(contentEditorContent) contentEditorContent.classList.remove("inactive");
+                ensureSummernoteInitialized();
+                break;
+            case 'admin':
+                if(adminContent) adminContent.classList.remove("inactive");
+                break;
+            case 'account':
+                if(accountOptionsContent) accountOptionsContent.classList.remove("inactive");
+                break;
+            case 'main':
+            default:
+                if(mainContent) mainContent.classList.remove("inactive");
+                break;
+        }
+    }
+});
 
 function ensureSummernoteInitialized() {
     const el = document.getElementById('summernote');
@@ -27,7 +53,7 @@ function ensureSummernoteInitialized() {
     jQuery('#summernote').summernote({
         width:  1300,
         height: 700,
-        tabsize: 2,
+        tabsize: 1,
 
         // Show font dropdown + include your font
         fontNames: ['Interphases', 'Arial', 'Verdana', 'Times New Roman', 'Courier New'],
@@ -90,4 +116,9 @@ if (adminPopUp && adminPopUp.textContent.trim() !== '') {
     setTimeout(() => adminPopUp.classList.remove('show'), 5000);
 }
 
-
+if (contentEditorPopUp && contentEditorPopUp.textContent.trim() !== '') {
+    disableAllContents();
+    contentEditorContent.classList.remove("inactive")
+    contentEditorPopUp.classList.add('show');
+    setTimeout(() => contentEditorPopUp.classList.remove('show'), 5000);
+}

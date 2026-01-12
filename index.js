@@ -7,6 +7,7 @@ const closeLoginModalButton = document.querySelectorAll('.closeLoginModalButton'
 const createAccountInsideLoginModalButton = document.querySelector('#createAccountButtonInsideLoginModal')
 const logInButtonInsideAccountCreationModal = document.querySelector('#logInButtonInsideAccountCreationModal')
 
+
 openAccountCreationModalButton.forEach(button => {
     button.addEventListener('click', () => {
         accountCreationModal.showModal();
@@ -42,7 +43,7 @@ closeLoginModalButton.forEach(button => {
         loginModal.close();
 })});
 
-//ao clicar fora do modal do criar conta fecha-lo
+//ao clicar fora do modal do login fecha-lo
 loginModal.addEventListener('click', (cursorPosition) => {
     const dialogDimensions = loginModal.getBoundingClientRect();
     if (

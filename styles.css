@@ -231,7 +231,7 @@ a.altLink:hover, button.altLink:hover{
     background-color:#f63a3a;
     display: flex;
     border-radius: 10px;
-    z-index: 100px;
+    z-index: 100;
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);

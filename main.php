@@ -18,7 +18,7 @@
             <?php
             $connection = mysqli_connect('localhost', 'root');
                         
-            if(!$connection){   
+            if(!$connection){                   
                 echo("Connection failed: " . mysqli_connect_error());   
                 throw new Exception("");    
             }
@@ -52,8 +52,6 @@
     <div class="content" id="mainContent">
         <div class="coursesInfoContainer">
             <?php
-            #TODO criar novas paginas baseadas nos cursos
-            #TODO ligar tudo automaticamente 
             try{
             echo("<h1>Hi, $username, ready to start language learning?<h1>");
             $queryGetLessons = "select * from courses;";
@@ -79,6 +77,9 @@
             </div>');
                 $i +=1;
             }
+
+            
+
             }
             catch(Exception $e){
 
@@ -143,7 +144,6 @@
 
 
                         if(isset($_SESSION['globalSearchIds'])){
-                            
 
                             foreach($_SESSION['globalSearchIds'] as $rowID){
                                 $querySelectUserFromID = "select id, username, name, email, roleID from user where id = $rowID;";
@@ -255,9 +255,7 @@
                 if(isset($_SESSION['overrideCourseSelection'])){
                     $overrideCourseSelection = $_SESSION['overrideCourseSelection'];
                 }
-                #TODO dar redirected a pagina se houver override ou outros
-                #TODO mostrar erros e alladat
-
+                
                 $i = 1;
                 while ($row = mysqli_fetch_assoc($resultSelectCourses)){
                     $courseID = $row['courseID'];
@@ -285,7 +283,20 @@
                     echo('</form>');
                     $i ++;
                 }
+                
+                if (isset($_SESSION['contentEditorMessageType'])){
+                    $contentEditorMessageType = $_SESSION['contentEditorMessageType'];
+                }
+                else{
+                    $contentEditorMessageType = "";
+                }
 
+                if (isset($_SESSION['contentEditorMessage'])) {
+                    echo(' <div class="popUp '.$contentEditorMessageType.'" id="contentEditorPopUp">
+                        '.  $_SESSION['contentEditorMessage'] . '
+                    </div>');
+                    unset($_SESSION['contentEditorMessage']);
+                }
                 }
                 catch( Exception $e){
                 }

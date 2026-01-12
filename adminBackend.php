@@ -38,7 +38,7 @@
         if(!$connection){
             $_SESSION['adminMessage'] =  "Error: " . mysqli_connect_error() . "";
             $_SESSION['adminMessageType'] = "ERROR";  
-            echo "<script>window.location.href = 'main.php';</script>";
+            echo "<script>window.location.href = 'main.php?page=admin';</script>";
         }
 
         $queryUpdateUsername = "update user set username = '$username' where id = $id;";
@@ -55,7 +55,7 @@
             if (!$resultSelectLastID) {
                 $_SESSION['adminMessage'] = "Error: " . mysqli_error($connection);
                 $_SESSION['adminMessageType'] = "errorPopUp";
-                echo "<script>window.location.href = 'main.php';</script>";
+                echo "<script>window.location.href = 'main.php?page=admin';</script>";
                 throw new Exception("");
 
             }
@@ -77,7 +77,7 @@
 
             unset($_SESSION['globalSearchIds']);
             unset($_SESSION['searchQuery']);
-            echo "<script>window.location.href = 'main.php';</script>";
+            echo "<script>window.location.href = 'main.php?page=admin';</script>";
             throw new Exception("");
         }
 
@@ -86,7 +86,7 @@
             if($search == ""){
                 unset($_SESSION['globalSearchIds']);
                 $_SESSION['adminMessageType'] = "successPopUp";
-                echo "<script>window.location.href = 'main.php';</script>";
+                echo "<script>window.location.href = 'main.php?page=admin';</script>";
             }
             $queryGlobalSearch = "select id from user where id like '%$search%' or username like '%$search%' or name like '%$search%' or email like '%$search%' or roleID like '%$search%';";
             $resultGlobalSearch = mysqli_query($connection, $queryGlobalSearch);
@@ -94,7 +94,7 @@
             if(!$resultGlobalSearch){
                 $_SESSION['adminMessage'] = "Error: " . mysqli_error($connection);
                 $_SESSION['adminMessageType'] = "errorPopUp";
-                echo "<script>window.location.href = 'main.php';</script>";
+                echo "<script>window.location.href = 'main.php?page=admin';</script>";
                 throw new Exception("");
             }
             
@@ -106,7 +106,7 @@
             $_SESSION['searchQuery'] = $search;
             $_SESSION['adminMessage'] = "Search found ".count($ids)." results";
             $_SESSION['adminMessageType'] = "successPopUp";
-            echo "<script>window.location.href = 'main.php';</script>";
+            echo "<script>window.location.href = 'main.php?page=admin';</script>";
         }
 
         $resultCheckEmail = mysqli_query($connection, $queryCheckEmail); 
@@ -139,7 +139,7 @@
             } 
 
 
-            echo "<script>window.location.href = 'main.php';</script>";
+            echo "<script>window.location.href = 'main.php?page=admin';</script>";
             throw new Exception("");
         }
         
@@ -202,7 +202,7 @@
         
         $_SESSION['adminMessage'] =  "User updated successfully";
         $_SESSION['adminMessageType'] = "successPopUp";
-        echo "<script>window.location.href = 'main.php';</script>";
+        echo "<script>window.location.href = 'main.php?page=admin';</script>";
     }    
 
     catch(Exception $e){

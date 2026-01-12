@@ -140,6 +140,22 @@ aside.mainAside {
   text-decoration: none;
 }
 
+.lessonContentContainer{
+  all: initial; 
+  display: block; 
+  width: 100%;
+  box-sizing: border-box;
+  color: white;
+  font-family: sans-serif;
+  text-align: left; 
+  padding: 15px;
+  text-decoration: none;
+}
+
+#lessonsActionsContainer input, #coursesActionsContainer input{
+  color: black;
+}
+
 #coursesContainer{
   display:flex;
   flex-direction: column;

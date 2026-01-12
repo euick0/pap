@@ -1,7 +1,6 @@
 <?php session_start(); ?>
 <?php
 
-#TODO pagina inicial shinanigans
 try{
 if ($_SERVER['REQUEST_METHOD'] !== 'POST'){
     echo "<script>window.location.href = 'index.html';</script>";
@@ -16,6 +15,7 @@ if(!$connection){
 }
 
 $changeLessonID = $_POST['changeLesson'] ?? '';
+$changeUserLessonID = $_POST['changeUserLesson'] ?? '';
 $changeCourseID = $_POST['changeCourse'] ?? '';
 $action = $_POST['action'] ?? '';
 
@@ -30,10 +30,14 @@ if($action == "deleteCourse"){
 
     unset($_SESSION['overrideCourseSelection']);
     if (!$resultDeleteCourse or !$resultDeleteCourseLessons or !$resultDeleteUserCourses){
-        echo("Connection failed: " . mysqli_connect_error());
-        throw new Exception("");    
+        $_SESSION['contentEditorMessageType'] = "errorPopUp";
+        $_SESSION['contentEditorMessage'] = "Connection failed: " . mysqli_connect_error()."";
+        echo "<script>window.location.href = 'main.php?page=editor';</script>";
+
     }
-    echo "<script>window.location.href = 'main.php';</script>";
+    $_SESSION['contentEditorMessageType'] = "successPopUp";
+    $_SESSION['contentEditorMessage'] = "Deleted course successfully";
+    echo "<script>window.location.href = 'main.php?page=editor';</script>";
 }
 
 if($action == "createNewCourse"){
@@ -42,8 +46,9 @@ if($action == "createNewCourse"){
     $resultSelectLastID = mysqli_query($connection, $querySelectLastID);
 
     if(!$resultSelectLastID){
-        echo("Connection failed: " . mysqli_error($connection));
-        throw new Exception("");    
+        $_SESSION['contentEditorMessageType'] = "errorPopUp";
+        $_SESSION['contentEditorMessage'] = "Connection failed: " . mysqli_connect_error()."";
+        echo "<script>window.location.href = 'main.php?page=editor';</script>";
     }
 
     $nextID = mysqli_fetch_assoc($resultSelectLastID)['max_id'] + 1;
@@ -51,10 +56,14 @@ if($action == "createNewCourse"){
     $resultAddCourse = mysqli_query($connection, $queryAddCourse);
 
     if(!$resultAddCourse){
-        echo("Connection failed: " . mysqli_error($connection));
-        throw new Exception("");    
+        $_SESSION['contentEditorMessageType'] = "errorPopUp";
+        $_SESSION['contentEditorMessage'] = "Connection failed: " . mysqli_connect_error()."";
+        echo "<script>window.location.href = 'main.php?page=editor';</script>";
+
     }
-    echo "<script>window.location.href = 'main.php';</script>";
+    $_SESSION['contentEditorMessageType'] = "successPopUp";
+    $_SESSION['contentEditorMessage'] = "Created a new course successfully";
+    echo "<script>window.location.href = 'main.php?page=editor';</script>";
 }
 
 
@@ -65,10 +74,14 @@ if($action == "deleteLesson"){
 
     unset($_SESSION['overrideLessonSelection']);
     if (!$resultDeleteLesson){
-        echo("Connection failed: " . mysqli_connect_error());
-        throw new Exception("");    
+        $_SESSION['contentEditorMessageType'] = "errorPopUp";
+        $_SESSION['contentEditorMessage'] = "Connection failed: " . mysqli_connect_error()."";
+        echo "<script>window.location.href = 'main.php?page=editor';</script>";
+  
     }
-    echo "<script>window.location.href = 'main.php';</script>";
+    $_SESSION['contentEditorMessageType'] = "successPopUp";
+    $_SESSION['contentEditorMessage'] = "Deleted lesson successfully";
+    echo "<script>window.location.href = 'main.php?page=editor';</script>";
 }
 
 if($action == "createNewLesson"){
@@ -87,10 +100,13 @@ if($action == "createNewLesson"){
     $resultAddLesson = mysqli_query($connection, $queryAddLesson);
 
     if(!$resultAddLesson){
-        echo("Connection failed: " . mysqli_error($connection));
-        throw new Exception("");    
+        $_SESSION['contentEditorMessageType'] = "errorPopUp";
+        $_SESSION['contentEditorMessage'] = "Connection failed: " . mysqli_connect_error()."";
+        echo "<script>window.location.href = 'main.php?page=editor';</script>";   
     }
-    echo "<script>window.location.href = 'main.php';</script>";
+    $_SESSION['contentEditorMessageType'] = "successPopUp";
+    $_SESSION['contentEditorMessage'] = "Created new lesson successfully";
+    echo "<script>window.location.href = 'main.php?page=editor';</script>";
 }
 
 if($action == "updateLesson"){
@@ -100,25 +116,31 @@ if($action == "updateLesson"){
     $resultUpdateLesson = mysqli_query($connection, $queryUpdateLesson);
 
     if(!$resultUpdateLesson){
-        echo("Connection failed: " . mysqli_error($connection));
-        throw new Exception("");    
+        $_SESSION['contentEditorMessageType'] = "errorPopUp";
+        $_SESSION['contentEditorMessage'] = "Connection failed: " . mysqli_connect_error()."";
+        echo "<script>window.location.href = 'main.php?page=editor';</script>";   
     }
-    echo "<script>window.location.href = 'main.php';</script>";
+    $_SESSION['contentEditorMessageType'] = "successPopUp";
+    $_SESSION['contentEditorMessage'] = "Updated new lesson successfully";
+    echo "<script>window.location.href = 'main.php?page=editor';</script>";
+}
+
+if($changeUserLessonID != ""){
+    $_SESSION['overrideLessonSelection'] = $changeUserLessonID;
+    echo "<script>window.location.href = 'lessons.php';</script>";
 }
 
 if($changeLessonID != ""){
     $_SESSION['overrideLessonSelection'] = $changeLessonID;
-    echo "<script>window.location.href = 'main.php';</script>";
+    echo "<script>window.location.href = 'main.php?page=editor';</script>";
 }
 
 if($changeCourseID != ""){
     $_SESSION['overrideCourseSelection'] = $changeCourseID;
     unset($_SESSION['overrideLessonSelection']);
-    echo "<script>window.location.href = 'main.php';</script>";
+    echo "<script>window.location.href = 'main.php?page=editor';</script>";
 }
     
-    
-
 }
 
 catch (Exception $e){

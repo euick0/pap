@@ -11,9 +11,9 @@
 <body>
 <aside class="mainAside">
     <div class="topIcons">
-        <div class ="iconContainer" id="logoIconContainer">
+        <a href="main.php?page=main" class ="iconContainer" id="logoIconContainer">
             <img src="assets/svgs/Reqal Logo - Dark Mode.svg">
-        </div>
+        </a>
         <?php
         $connection = mysqli_connect('localhost', 'root');
                     
@@ -28,12 +28,16 @@
             $roleID = $_SESSION['roleID'] ?? 1;
             if($roleID == 1 or $roleID == 2){
                 echo('<div class ="iconContainer" id="contentEditorContainer">
-                    <img src="assets/svgs/edit.svg">
+                    <a href="main.php?page=editor" class ="iconContainer" id="logoIconContainer">
+                        <img src="assets/svgs/edit.svg">
+                    </a>
                 </div>');
             }
             if($roleID == 1) {
                 echo('<div class ="iconContainer" id="adminIconContainer">
-                    <img src="assets/svgs/protect.svg">
+                    <a href="main.php?page=admin" class ="iconContainer" id="logoIconContainer">
+                        <img src="assets/svgs/protect.svg">
+                    </a>
                 </div>');
             }
         ?>
@@ -41,7 +45,9 @@
     </div>
     <div class="bottomIcons">            
         <div class ="iconContainer" id="accountOptionsIconContainer">
-            <img src="assets/svgs/menu.svg">
+            <a href="main.php?page=account" class ="iconContainer" id="logoIconContainer">
+                <img src="assets/svgs/menu.svg">
+            </a>
         </div>
     </div>
 </aside>
@@ -50,47 +56,70 @@
 try{
     $connection = mysqli_connect('localhost', 'root');
     mysqli_select_db($connection,'projetoSI');
+
     if(!$connection){   
         echo("Connection failed: " . mysqli_connect_error());   
         throw new Exception("");    
     }
-    $querySelectCourses = "select * from courses;";
-    $resultSelectCourses = mysqli_query($connection, $querySelectCourses);
+
+    if (isset($_POST['courseID'])) {
+        // ta a vir do post
+        $courseID = $_POST['courseID'];
+        $_SESSION['activeCourseID'] = $courseID;
+        unset($_SESSION['overrideLessonSelection']); 
+    } elseif (isset($_SESSION['activeCourseID'])) {
+        // ta a vir do backend
+        $courseID = $_SESSION['activeCourseID'];
+    } else {
+        echo "<script>window.location.href = 'main.php';</script>";
+        exit();
+    }
+
+    $querySelectLessons = "select * from lessons where courseID = ".$courseID.";";
+    $resultSelectLessons = mysqli_query($connection, $querySelectLessons);
+
+    if(!$resultSelectLessons){
+        echo("Connection failed: " . mysqli_error($connection));
+        throw new Exception("");    
+    }
     
-    if (!$resultSelectCourses){
-        echo("Error: " . mysqli_error($connection));   
-        throw new Exception("");
+    if(isset($_SESSION['overrideLessonSelection'])){
+        $overrideLessonSelection = $_SESSION['overrideLessonSelection'];
     }
-    if(isset($_SESSION['overrideCourseSelection'])){
-        $overrideCourseSelection = $_SESSION['overrideCourseSelection'];
-    }
-    #TODO dar redirected a pagina se houver override ou outros
-    #TODO mostrar erros e alladat
+
     $i = 1;
-    while ($row = mysqli_fetch_assoc($resultSelectCourses)){
-        $courseID = $row['courseID'];
-        $courseName = $row['courseName'];
+    $selectedLessonContent = "";
+    while ($row = mysqli_fetch_assoc($resultSelectLessons)){
+        $lessonID = $row["lessonID"];
+        $lessonName = $row["lessonName"];
+        
         if($i == 1){
             $selectedText = "selected";
-            $_SESSION['selectedCourse'] = 1;
+            $_SESSION['selectedLesson'] = $lessonID;
         }
         else{
             $selectedText = "unselected";
         }
-        if (isset($overrideCourseSelection) and $overrideCourseSelection != null){
-            if($overrideCourseSelection == $courseID){
+        if (isset($overrideLessonSelection) and $overrideLessonSelection != null){
+            if($overrideLessonSelection == $lessonID){
                 $selectedText = "selected";
-                $_SESSION['selectedCourse'] = $courseID;
+                $_SESSION['selectedLesson'] = $lessonID;
             }
             else{
                 $selectedText = "unselected";
             }
         }
+
+        if ($selectedText == "selected") {
+            $selectedLessonContent = $row['lessonContent'];
+        }
         echo('<form method="post" action="contentEditorBackend.php">');
-        echo('<button type="submit" class="courseButton adminPanelButton '.$selectedText.'" name="changeCourse" value="'.$courseID.'">'.$courseName.'</button>');
+        echo('<button type="submit" class="courseButton adminPanelButton '.$selectedText.'" name="changeUserLesson" value="'.$lessonID.'">'.$lessonName.'</button>');
         echo('</form>');
         $i ++;
     }
+    
+    echo("<div class=\"lessonContentContainer\">$selectedLessonContent</div>");
     }
     catch( Exception $e){
 
@@ -98,6 +127,6 @@ try{
 ?>
 </div>
 
-<script ="main.js"></script>
+<script src= "lessons.js"></script>
 </body>
 </html>
