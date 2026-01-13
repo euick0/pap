@@ -83,13 +83,45 @@ aside.mainAside {
   background-color: #5da826;
 }
 
-.unselected{
+.courseButton{
+  padding: 10px;
+  min-width: 100px; 
+  border-radius: 15px;
+  background-color: #FABB18;
+  border: 2px #FABB18 solid;
+}
+
+.courseButton:hover{
+  background-color: #dfa617
+}
+
+.lessonButton{
+  padding: 10px;
+  min-width: 100px; 
+  border-radius: 15px;
+  background-color: #CC2054;
   border: 2px #CC2054 solid;
+}
+
+
+.lessonButton:hover{
+  background-color: #e92560; 
+}
+
+.lessonButton:focus{
+  outline: 0px #CC2054 solid;
+}
+
+.lessonUnselected{
   background-color: transparent;
 }
 
-.selected{
-  padding: 7px, 12px;
+.lessonUnselected:hover{
+  background-color: transparent;
+}
+
+.unselected{
+  background-color: transparent;
 }
 
 .unselected:hover{
@@ -152,15 +184,71 @@ aside.mainAside {
   text-decoration: none;
 }
 
+.lessonsContainer{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+.lessonsList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; 
+  gap: 10px;
+  width: 100%;
+  justify-content: center;
+}
+
+.lessonsList form {
+  margin: 0;
+}
+
+.redButton{
+  background-color: #f63a3a;
+}
+
+.redButton:hover{
+  background-color: #cc2d2d;
+}
+
+.greenButton{
+  background-color: #6EC72D;
+}
+
+.greenButton:hover{
+  background-color:#5da826;
+}
+
 #lessonsActionsContainer input, #coursesActionsContainer input{
-  color: black;
+  padding: 5px 10px;
+  width: 200px;
+  text-align: left;
+  margin: 0px, 5px;
+  border: #3b3d47 1px solid;
+  background-color: #33353d;
+  border-radius: 5px;
+}
+
+#lessonsActionsContainer input:focus, #coursesActionsContainer input:focus{
+  border-color: #43BCBB;
+  outline: none;
 }
 
 #coursesContainer{
   display:flex;
   flex-direction: column;
   gap: 16px;
-  justify-content: stretch;
+  justify-content: flex-start;
+  padding: 30px;
+}
+
+#coursesContainer button{
+  padding: 10px;
+}
+
+#coursesContainer input{
+  padding: 10px;
 }
 
 #coursesRow, #lessonsRow{
@@ -269,14 +357,10 @@ aside.mainAside {
 }
 
 
-
-
-
-
 /* summernote */
 #contentEditorContent{
   text-align: left;      
-  display: flex;/* editor looks better left-aligned */
+  display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;

@@ -51,7 +51,7 @@
         </div>
     </div>
 </aside>
-<div class="content">
+<div class="content lessonsContainer">
 <?php
 try{
     $connection = mysqli_connect('localhost', 'root');
@@ -89,43 +89,45 @@ try{
 
     $i = 1;
     $selectedLessonContent = "";
+    
+    echo('<div class="lessonsList">');
     while ($row = mysqli_fetch_assoc($resultSelectLessons)){
         $lessonID = $row["lessonID"];
         $lessonName = $row["lessonName"];
         
         if($i == 1){
-            $selectedText = "selected";
+            $selectedText = "lessonSelected";
             $_SESSION['selectedLesson'] = $lessonID;
         }
         else{
-            $selectedText = "unselected";
+            $selectedText = "lessonUnselected";
         }
         if (isset($overrideLessonSelection) and $overrideLessonSelection != null){
             if($overrideLessonSelection == $lessonID){
-                $selectedText = "selected";
+                $selectedText = "lessonSelected";
                 $_SESSION['selectedLesson'] = $lessonID;
             }
             else{
-                $selectedText = "unselected";
+                $selectedText = "lessonUnselected";
             }
         }
 
-        if ($selectedText == "selected") {
+        if ($selectedText == "lessonSelected") {
             $selectedLessonContent = $row['lessonContent'];
         }
         echo('<form method="post" action="contentEditorBackend.php">');
-        echo('<button type="submit" class="courseButton adminPanelButton '.$selectedText.'" name="changeUserLesson" value="'.$lessonID.'">'.$lessonName.'</button>');
+        echo('<button type="submit" class="lessonButton adminPanelButton '.$selectedText.'" name="changeUserLesson" value="'.$lessonID.'">'.$lessonName.'</button>');
         echo('</form>');
         $i ++;
     }
+    echo('</div>');
+    echo("<div class=\"lessonContentContainer\">$selectedLessonContent</div></div>");
     
-    echo("<div class=\"lessonContentContainer\">$selectedLessonContent</div>");
     }
     catch( Exception $e){
 
     }
 ?>
-</div>
 
 <script src= "lessons.js"></script>
 </body>

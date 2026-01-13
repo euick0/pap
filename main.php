@@ -279,7 +279,7 @@
                         }
                     }
                     echo('<form method="post" action="contentEditorBackend.php">');
-                    echo('<button type="submit" class="courseButton adminPanelButton '.$selectedText.'" name="changeCourse" value="'.$courseID.'">'.$courseName.'</button>');
+                    echo('<button type="submit" class="courseButton '.$selectedText.'" name="changeCourse" value="'.$courseID.'">'.$courseName.'</button>');
                     echo('</form>');
                     $i ++;
                 }
@@ -305,9 +305,9 @@
             
             <div id="coursesActionsContainer">
                 <form method="post" action="contentEditorBackend.php">
-                    <button type="submit" name="action" value="deleteCourse">Delete Selected Course and Associated Lessons</button>
                     <input placeholder= "New Course Name" name="newCourseName"></input>
                     <button type="submit" name="action" value="createNewCourse">Create new Course</button>
+                    <button type="submit" name="action" value="deleteCourse" class="redButton">Delete course and associated lessons</button>
                 </form>
             </div>
             <div id="lessonsRow">
@@ -331,25 +331,25 @@
                     $lessonName = $row["lessonName"];
                     
                     if($i == 1){
-                        $selectedText = "selected";
+                        $selectedText = "lessonSelected";
                         $_SESSION['selectedLesson'] = $lessonID;
                     }
                     else{
-                        $selectedText = "unselected";
+                        $selectedText = "lessonUnselected";
                     }
 
                     if (isset($overrideLessonSelection) and $overrideLessonSelection != null){
                         if($overrideLessonSelection == $lessonID){
-                            $selectedText = "selected";
+                            $selectedText = "lessonSelected";
                             $_SESSION['selectedLesson'] = $lessonID;
                         }
                         else{
-                            $selectedText = "unselected";
+                            $selectedText = "lessonUnselected";
                         }
                     }
 
                     echo('<form method="post" action="contentEditorBackend.php">');
-                    echo('<button type="submit" class="courseButton adminPanelButton '.$selectedText.'" name="changeLesson" value="'.$lessonID.'">'.$lessonName.'</button>');
+                    echo('<button type="submit" class="lessonButton  '.$selectedText.'" name="changeLesson" value="'.$lessonID.'">'.$lessonName.'</button>');
                     echo('</form>');
                     $i ++;
                 }
@@ -359,9 +359,9 @@
             <div id="lessonsActionsContainer">
                 <form method="post" action="contentEditorBackend.php">
                     <input placeholder= "New Lesson Name" name="newLessonName"></input>
-                    <button type="submit" name="action" value="createNewLesson">Create new Lesson</button>
-                    <button type="submit" name="action" value="updateLesson" form="summerNoteForm">Update Lesson</button>
-                    <button type="submit" name="action" value="deleteLesson">Delete Lesson</button>
+                    <button type="submit" name="action" value="createNewLesson ">Create new Lesson</button>
+                    <button type="submit" name="action" value="updateLesson" form="summerNoteForm" class="greenButton">Update Lesson</button>
+                    <button type="submit" name="action" value="deleteLesson" class="redButton">Delete Lesson</button>
                 </form>
             </div>
         </div>
