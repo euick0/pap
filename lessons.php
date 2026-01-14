@@ -24,6 +24,8 @@
             
         mysqli_select_db($connection,'projetoSI');
             #TODO verificar se tem sessao iniciada antes de entregar o projeto lol 
+            #TODO Resolver problema de registar
+            #TODO resolver meter lissoes ou cursos vazios
             $username = $_SESSION['username'] ?? 'Guest';
             $roleID = $_SESSION['roleID'] ?? 1;
             if($roleID == 1 or $roleID == 2){

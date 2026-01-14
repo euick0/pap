@@ -160,7 +160,7 @@
         
         if(mysqli_num_rows($resultCheckName) == 0 ){
             $resultUpdateName = mysqli_query($connection, $queryUpdateName);
-            if (!$resultUpdateName){
+            if (!$resultUpdateName){ 
                 $_SESSION['adminMessage'] =  "Error: " . mysqli_error($connection) . "";
                 $_SESSION['adminMessageType'] = "errorPopUp";
             }
