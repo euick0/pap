@@ -1,10 +1,16 @@
 import React from 'react';
 
-//
-const Button = () => {
+interface ButtonProps {
+    text: string;
+    type: string;
+}
+
+const Button = ({text, type="primary"} : ButtonProps) => {
+    
+
     return (
         <div>
-            <button className="bg-accent p-3 rounded-xl  transition duration-200 ease-in-out hover:bg-accent/80" >Test</button>
+            <button className="bg-accent px-3 py-2 rounded-xl m-0 transition duration-300 ease-in-out hover:bg-accentDark">{text}</button>
         </div>
     );
 };
