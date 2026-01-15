@@ -13,7 +13,7 @@
     <aside class="mainAside">
         <div class="topIcons">
             <div class ="iconContainer" id="logoIconContainer">
-                <img src="assets/svgs/Reqal Logo - Dark Mode.svg">
+                <img src="/assets/svgs/Reqal Logo - Dark Mode.svg">
             </div>
             <?php
             $connection = mysqli_connect('localhost', 'root');
@@ -32,12 +32,12 @@
                 }
                 if($roleID == 1 or $roleID == 2){
                     echo('<div class ="iconContainer" id="contentEditorContainer">
-                        <img src="assets/svgs/edit.svg">
+                        <img src="/assets/svgs/edit.svg">
                     </div>');
                 }
                 if($roleID == 1) {
                     echo('<div class ="iconContainer" id="adminIconContainer">
-                        <img src="assets/svgs/protect.svg">
+                        <img src="/assets/svgs/protect.svg">
                     </div>');
                 }
             ?>
@@ -46,7 +46,7 @@
             
         <div class="bottomIcons">            
             <div class ="iconContainer" id="accountOptionsIconContainer">
-                <img src="assets/svgs/menu.svg">
+                <img src="/assets/svgs/menu.svg">
             </div>
         </div>
     </aside>
@@ -115,7 +115,7 @@
                                     echo('<input class="searchBox" id="adminTableSearchBox" placeholder="Search" name="search" value= '.$searchQuery.'>')
                                 
                                 ?>
-                                <button type="submit" name="action" value="search"><img src ="assets/svgs/search.svg" id="adminTableSearchIcon"></button>
+                                <button type="submit" name="action" value="search"><img src ="/assets/svgs/search.svg" id="adminTableSearchIcon"></button>
                             </div>
                         </form></td>
                     <td colspan = 1>
@@ -174,7 +174,7 @@
                                     echo '<td> <input type="text" class="tableInput" name ="roleID" value ="' . $roleID . '" id="tableInputRoleID"></td>';
                                     echo '<td> <input type="text" class="tableInput" name ="password" placeholder="Change Password"></td>';
                                     echo '<td><button type="submit" name="action" value="update" class="adminPanelButton" id="updateAdminRowButton">Update Row</button></td>';
-                                    echo '<td><button type="submit" name="action" value="delete" class="adminPanelButton" id="deleteAdminRowButton"><img src="assets/svgs/trash.svg"></button></td>';
+                                    echo '<td><button type="submit" name="action" value="delete" class="adminPanelButton" id="deleteAdminRowButton"><img src="/assets/svgs/trash.svg"></button></td>';
                                     echo '</form>';
                                     echo '</tr>';
                                 }
@@ -200,7 +200,7 @@
                             echo '<td> <input type="text" class="tableInput" name ="roleID" value ="' . $roleID . '" id="tableInputRoleID"></td>';
                             echo '<td> <input type="text" class="tableInput" name ="password" placeholder="Change Password"></td>';
                             echo '<td><button type="submit" name="action" value="update" class="adminPanelButton" id="updateAdminRowButton">Update Row</button></td>';
-                            echo '<td><button type="submit" name="action" value="delete" class="adminPanelButton" id="deleteAdminRowButton"><img src="assets/svgs/trash.svg"></button></td>';
+                            echo '<td><button type="submit" name="action" value="delete" class="adminPanelButton" id="deleteAdminRowButton"><img src="/assets/svgs/trash.svg"></button></td>';
                             echo '</form>';
                             echo '</tr>';
                             

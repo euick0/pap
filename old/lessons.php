@@ -12,7 +12,7 @@
 <aside class="mainAside">
     <div class="topIcons">
         <a href="main.php?page=main" class ="iconContainer" id="logoIconContainer">
-            <img src="assets/svgs/Reqal Logo - Dark Mode.svg">
+            <img src="/assets/svgs/Reqal Logo - Dark Mode.svg">
         </a>
         <?php
         $connection = mysqli_connect('localhost', 'root');
@@ -32,14 +32,14 @@
             if($roleID == 1 or $roleID == 2){
                 echo('<div class ="iconContainer" id="contentEditorContainer">
                     <a href="main.php?page=editor" class ="iconContainer" id="logoIconContainer">
-                        <img src="assets/svgs/edit.svg">
+                        <img src="/assets/svgs/edit.svg">
                     </a>
                 </div>');
             }
             if($roleID == 1) {
                 echo('<div class ="iconContainer" id="adminIconContainer">
                     <a href="main.php?page=admin" class ="iconContainer" id="logoIconContainer">
-                        <img src="assets/svgs/protect.svg">
+                        <img src="/assets/svgs/protect.svg">
                     </a>
                 </div>');
             }
@@ -50,7 +50,7 @@
     <div class="bottomIcons">            
         <div class ="iconContainer" id="accountOptionsIconContainer">
             <a href="main.php?page=account" class ="iconContainer" id="logoIconContainer">
-                <img src="assets/svgs/menu.svg">
+                <img src="/assets/svgs/menu.svg">
             </a>
         </div>
     </div>

@@ -1,8 +1,13 @@
+import BackgroundVideo from "@/app/backgroundVideo";
+import Header from "@/component/header";
+
 const Home = () => {
+
     return (
-        <div className={"text-2xl underline"}>
-            Welcome to NextJS
-        </div>
+        <main>
+            <Header/>
+            <BackgroundVideo/>
+        </main>
     );
 };
 
