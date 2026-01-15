@@ -23,11 +23,12 @@
         }
             
         mysqli_select_db($connection,'projetoSI');
-            #TODO verificar se tem sessao iniciada antes de entregar o projeto lol 
-            #TODO Resolver problema de registar
-            #TODO resolver meter lissoes ou cursos vazios
             $username = $_SESSION['username'] ?? 'Guest';
-            $roleID = $_SESSION['roleID'] ?? 1;
+            $roleID = $_SESSION['roleID'] ?? -1;
+
+            if($roleID == -1){
+                echo "<script>window.location.href = 'index.html';</script>";
+            }
             if($roleID == 1 or $roleID == 2){
                 echo('<div class ="iconContainer" id="contentEditorContainer">
                     <a href="main.php?page=editor" class ="iconContainer" id="logoIconContainer">
@@ -42,6 +43,7 @@
                     </a>
                 </div>');
             }
+            
         ?>
         
     </div>

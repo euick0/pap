@@ -96,7 +96,7 @@
 
                         $queryCheckEmail = "select * from user where email = '$email'";
                         $queryCheckUsername  = "select * from user where username = '$username'";
-                        $queryInsert = "insert into user(username, name, email, password, roleID) values ('$username', '$name', '$email','$hashedPassword , 3);";
+                        $queryInsert = "insert into user(username, name, email, password, roleID) values ('$username', '$name', '$email','$hashedPassword' , 3);";
                         $resultEmail = mysqli_query($connection, $queryCheckEmail); 
                         $resultUsername = mysqli_query($connection, $queryCheckUsername);
         

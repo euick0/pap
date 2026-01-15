@@ -42,6 +42,14 @@ if($action == "deleteCourse"){
 
 if($action == "createNewCourse"){
     $newCourseName = $_POST['newCourseName'];
+
+    if ($newCourseName == "" or $newCourseName == null){
+        $_SESSION['contentEditorMessageType'] = "errorPopUp";
+        $_SESSION['contentEditorMessage'] = "Course name can't be empty";
+        echo "<script>window.location.href = 'main.php?page=editor';</script>";   
+        throw new Exception("");
+    }
+
     $querySelectLastID = "SELECT MAX(courseID) AS max_id FROM courses;";
     $resultSelectLastID = mysqli_query($connection, $querySelectLastID);
 
@@ -77,7 +85,7 @@ if($action == "deleteLesson"){
         $_SESSION['contentEditorMessageType'] = "errorPopUp";
         $_SESSION['contentEditorMessage'] = "Connection failed: " . mysqli_connect_error()."";
         echo "<script>window.location.href = 'main.php?page=editor';</script>";
-  
+
     }
     $_SESSION['contentEditorMessageType'] = "successPopUp";
     $_SESSION['contentEditorMessage'] = "Deleted lesson successfully";
@@ -86,6 +94,14 @@ if($action == "deleteLesson"){
 
 if($action == "createNewLesson"){
     $newLessonName = $_POST['newLessonName'];
+
+    if ($newLessonName == "" or $newLessonName == null){
+        $_SESSION['contentEditorMessageType'] = "errorPopUp";
+        $_SESSION['contentEditorMessage'] = "Lesson name can't be empty";
+        echo "<script>window.location.href = 'main.php?page=editor';</script>";   
+        throw new Exception("");
+    }
+
     $querySelectLastID = "SELECT MAX(lessonID) AS max_id FROM lessons;";
     $resultSelectLastID = mysqli_query($connection, $querySelectLastID);
     $selectedCourse = $_SESSION['selectedCourse'];

@@ -24,9 +24,12 @@
             }
                 
             mysqli_select_db($connection,'projetoSI');
-                #TODO verificar se tem sessao iniciada antes de entregar o projeto lol 
                 $username = $_SESSION['username'] ?? 'Guest';
-                $roleID = $_SESSION['roleID'] ?? 1;
+                $roleID = $_SESSION['roleID'] ?? -1;
+
+                if($roleID == -1){
+                    echo "<script>window.location.href = 'index.html';</script>";
+                }
                 if($roleID == 1 or $roleID == 2){
                     echo('<div class ="iconContainer" id="contentEditorContainer">
                         <img src="assets/svgs/edit.svg">
@@ -359,7 +362,7 @@
             <div id="lessonsActionsContainer">
                 <form method="post" action="contentEditorBackend.php">
                     <input placeholder= "New Lesson Name" name="newLessonName"></input>
-                    <button type="submit" name="action" value="createNewLesson ">Create new Lesson</button>
+                    <button type="submit" name="action" value="createNewLesson">Create new Lesson</button>
                     <button type="submit" name="action" value="updateLesson" form="summerNoteForm" class="greenButton">Update Lesson</button>
                     <button type="submit" name="action" value="deleteLesson" class="redButton">Delete Lesson</button>
                 </form>
