@@ -12,7 +12,7 @@
 <aside class="mainAside">
     <div class="topIcons">
         <a href="main.php?page=main" class ="iconContainer" id="logoIconContainer">
-            <img src="/assets/svgs/Reqal Logo - Dark Mode.svg">
+        <img src="/assets/svgs/Reqal Logo - Dark Mode.svg">
         </a>
         <?php
         $connection = mysqli_connect('localhost', 'root');
