@@ -1,19 +1,25 @@
+'use client';
 import React from 'react';
+import clsx from 'clsx';
 
 interface ButtonProps {
-    text: string;
+    content: string | React.ReactNode;
     type?: "main" | "secondary";
+    doOnClick?: () => void;
 }
 
-const Button = ({text, type ="main"} : ButtonProps) => {
+
+const Button = ({content, type ="main", doOnClick} : ButtonProps) => {
     
-     let styles = "px-3 py-2 bg-accent hover:bg-accentDark";
-    if (type === "secondary"){
-        styles = "px-3 py-2 hover:text-neutral-400";
-    }
     return (
         <div>
-            <button className={`rounded-xl m-0 transition duration-300 ease-in-out ${styles}`} >{text}</button>
+            <button className={clsx("rounded-xl m-0 transition duration-200 ease-in-out antialiased cursor-pointer", {
+                "px-3 py-2 bg-accent hover:bg-accentDark" : type === "main",
+                "px-3 py-2 hover:text-neutral-400" : type === "secondary"
+            })}
+            onClick={doOnClick}>
+                {content}
+            </button>
         </div>
     );
 };

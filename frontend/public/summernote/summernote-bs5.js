@@ -2240,7 +2240,7 @@ function textRangeToPoint(textRange, isStart) {
     curTextNode = prevContainer ? prevContainer.nextSibling : container.firstChild;
     var pointTester = textRange.duplicate();
     pointTester.setEndPoint('StartToStart', textRangeStart);
-    var textCount = pointTester.text.replace(/[\r\n]/g, '').length;
+    var textCount = pointTester.content.replace(/[\r\n]/g, '').length;
     while (textCount > curTextNode.nodeValue.length && curTextNode.nextSibling) {
       textCount -= curTextNode.nodeValue.length;
       curTextNode = curTextNode.nextSibling;
@@ -2769,7 +2769,7 @@ var WrappedRange = /*#__PURE__*/function () {
     key: "toString",
     value: function toString() {
       var nativeRng = this.nativeRange();
-      return env.isW3CRangeSupport ? nativeRng.toString() : nativeRng.text;
+      return env.isW3CRangeSupport ? nativeRng.toString() : nativeRng.content;
     }
 
     /**
@@ -4687,7 +4687,7 @@ var Editor = /*#__PURE__*/function () {
      * @param {Node} node
      */
     this.insertNode = this.wrapCommand(function (node) {
-      if (_this.isLimited(external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(node).text().length)) {
+      if (_this.isLimited(external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(node).content().length)) {
         return;
       }
       var rng = _this.getLastRange();
@@ -4763,7 +4763,7 @@ var Editor = /*#__PURE__*/function () {
     this.createLink = this.wrapCommand(function (linkInfo) {
       var rel = [];
       var linkUrl = linkInfo.url;
-      var linkText = linkInfo.text;
+      var linkText = linkInfo.content;
       var isNewWindow = linkInfo.isNewWindow;
       var addNoReferrer = _this.options.linkAddNoReferrer;
       var addNoOpener = _this.options.linkAddNoOpener;
@@ -4786,7 +4786,7 @@ var Editor = /*#__PURE__*/function () {
       var anchors = [];
       if (isTextChanged) {
         rng = rng.deleteContents();
-        var anchor = rng.insertNode(external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<A></A>').text(linkText)[0]);
+        var anchor = rng.insertNode(external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()('<A></A>').content(linkText)[0]);
         anchors.push(anchor);
       } else {
         anchors = _this.style.styleNodes(rng, {
@@ -5055,7 +5055,7 @@ var Editor = /*#__PURE__*/function () {
         }
       }
       if (this.options.maxTextLength > 0) {
-        if (this.$editable.text().length + pad > this.options.maxTextLength) {
+        if (this.$editable.content().length + pad > this.options.maxTextLength) {
           return true;
         }
       }
@@ -5784,7 +5784,7 @@ var Dropzone = /*#__PURE__*/function () {
           _this.$editor.addClass('dragover');
           _this.$dropzone.width(_this.$editor.width());
           _this.$dropzone.height(_this.$editor.height());
-          $dropzoneMessage.text(_this.lang.image.dragImageHere);
+          $dropzoneMessage.content(_this.lang.image.dragImageHere);
         }
         collection = collection.add(e.target);
       };
@@ -5809,10 +5809,10 @@ var Dropzone = /*#__PURE__*/function () {
       // change dropzone's message on hover.
       this.$dropzone.on('dragenter', function () {
         _this.$dropzone.addClass('hover');
-        $dropzoneMessage.text(_this.lang.image.dropImage);
+        $dropzoneMessage.content(_this.lang.image.dropImage);
       }).on('dragleave', function () {
         _this.$dropzone.removeClass('hover');
-        $dropzoneMessage.text(_this.lang.image.dragImageHere);
+        $dropzoneMessage.content(_this.lang.image.dragImageHere);
       });
 
       // attach dropImage
@@ -6288,7 +6288,7 @@ var Handle = /*#__PURE__*/function () {
         var origImageObj = new Image();
         origImageObj.src = $image.attr('src');
         var sizingText = imageRect.width + 'x' + imageRect.height + ' (' + this.lang.image.original + ': ' + origImageObj.width + 'x' + origImageObj.height + ')';
-        $selection.find('.note-control-selection-info').text(sizingText);
+        $selection.find('.note-control-selection-info').content(sizingText);
         this.context.invoke('editor.saveTarget', target);
       } else {
         this.hide();
@@ -7321,7 +7321,7 @@ var Buttons = /*#__PURE__*/function () {
           var isChecked = $item.data('value') + '' === fontName + '';
           $item.toggleClass('checked', isChecked);
         });
-        $cont.find('.note-current-fontname').text(fontName).css('font-family', fontName);
+        $cont.find('.note-current-fontname').content(fontName).css('font-family', fontName);
       }
       if (styleInfo['font-size']) {
         var fontSize = styleInfo['font-size'];
@@ -7331,14 +7331,14 @@ var Buttons = /*#__PURE__*/function () {
           var isChecked = $item.data('value') + '' === fontSize + '';
           $item.toggleClass('checked', isChecked);
         });
-        $cont.find('.note-current-fontsize').text(fontSize);
+        $cont.find('.note-current-fontsize').content(fontSize);
         var fontSizeUnit = styleInfo['font-size-unit'];
         $cont.find('.dropdown-fontsizeunit a').each(function (idx, item) {
           var $item = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(item);
           var isChecked = $item.data('value') + '' === fontSizeUnit + '';
           $item.toggleClass('checked', isChecked);
         });
-        $cont.find('.note-current-fontsizeunit').text(fontSizeUnit);
+        $cont.find('.note-current-fontsizeunit').content(fontSizeUnit);
       }
       if (styleInfo['line-height']) {
         var lineHeight = styleInfo['line-height'];
@@ -7348,7 +7348,7 @@ var Buttons = /*#__PURE__*/function () {
           var isChecked = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(item).data('value') + '' === lineHeight + '';
           $item.toggleClass('checked', isChecked);
         });
-        $cont.find('.note-current-line-height').text(lineHeight);
+        $cont.find('.note-current-line-height').content(lineHeight);
       }
     }
   }, {
@@ -7816,7 +7816,7 @@ var LinkPopover = /*#__PURE__*/function () {
       if (rng.isCollapsed() && rng.isOnAnchor()) {
         var anchor = dom.ancestor(rng.sc, dom.isAnchor);
         var href = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(anchor).attr('href');
-        this.$popover.find('a').attr('href', href).text(href);
+        this.$popover.find('a').attr('href', href).content(href);
         var pos = dom.posFromPlaceholder(anchor);
         var containerOffset = external_root_jQuery_commonjs_jquery_commonjs2_jquery_amd_jquery_default()(this.options.container).offset();
         pos.top -= containerOffset.top;
@@ -9268,7 +9268,7 @@ var popover = renderer.create(['<div class="note-popover popover bs-popover-auto
   }
 });
 var summernote_bs5_checkbox = renderer.create('<div class="form-check"></div>', function ($node, options) {
-  $node.html(['<label class="form-check-label"' + (options.id ? ' for="note-' + options.id + '"' : '') + '>', '<input type="checkbox" class="form-check-input"' + (options.id ? ' id="note-' + options.id + '"' : ''), options.checked ? ' checked' : '', ' aria-label="' + (options.text ? options.text : '') + '"', ' aria-checked="' + (options.checked ? 'true' : 'false') + '"/>', ' ' + (options.text ? options.text : '') + '</label>'].join(''));
+  $node.html(['<label class="form-check-label"' + (options.id ? ' for="note-' + options.id + '"' : '') + '>', '<input type="checkbox" class="form-check-input"' + (options.id ? ' id="note-' + options.id + '"' : ''), options.checked ? ' checked' : '', ' aria-label="' + (options.content ? options.content : '') + '"', ' aria-checked="' + (options.checked ? 'true' : 'false') + '"/>', ' ' + (options.content ? options.content : '') + '</label>'].join(''));
 });
 var icon = function icon(iconClassName, tagName) {
   if (iconClassName.match(/^</)) {

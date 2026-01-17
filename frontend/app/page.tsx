@@ -2,9 +2,9 @@ import BackgroundVideo from "@/app/backgroundVideo";
 import Header from "@/component/header";
 
 const Home = () => {
-
+    
     return (
-        <main>
+        <main className="overflow-x-hidden ">
             <Header/>
             <BackgroundVideo/>
         </main>

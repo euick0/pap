@@ -236,7 +236,7 @@
           }).trigger('focus').on('keyup', onKeyup);
 
           $saveBtn
-            .text(info.node ? lang.databasic.edit : lang.databasic.insert)
+            .content(info.node ? lang.databasic.edit : lang.databasic.insert)
             .on('click', function(event) {
               event.preventDefault();
 

@@ -271,7 +271,7 @@
           if (text) {
             for (var i = 0; i < $specialCharNode.length; i++) {
               var $checkNode = $($specialCharNode[i]);
-              if ($checkNode.text() === text) {
+              if ($checkNode.content() === text) {
                 addActiveClass($checkNode);
                 currentRow = Math.ceil((i + 1) / COLUMN_LENGTH);
                 currentColumn = (i + 1) % COLUMN_LENGTH;
