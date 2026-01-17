@@ -26,6 +26,14 @@ body {
 }
 
 @theme{
-  --color-accent: #CC2054;
-  --color-accentDark: #991942;
+  --color-primary: #CC2054;
+  --color-primaryDark: #991942;
+  --color-contrast: #2FA4A9;
+  --color-complement1: #E06A8C;
+  --color-complement2:  #8E173B;
+  --color-secondaryContrast: #F0B429;
+  --color-background: #0E0F14;
+  --color-backgroundLight: #171821;
+  --color-surface: #1F2230;
+  --color-border: #2A2D3A;
 }

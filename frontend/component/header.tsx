@@ -23,7 +23,7 @@ const Header = () => {
         <>
             {isLoginModalOpen && <LoginModal onClose={ToggleLoginModal} />}
             <div className="relative w-screen h-screen overflow-hidden">
-                <div className="flex justify-between px-8 py-3 m-5 items-center w-[97vw] bg-gray-500/30 rounded-4xl absolute z-1">
+                <div className="flex justify-between px-8 py-3 m-5 items-center w-[98vw] bg-gray-500/30 rounded-4xl absolute z-1">
                     <div className="flex flex-1 items-center gap-4 justify-start">
                         <Logo width={100} height={100}/>
                     </div>
