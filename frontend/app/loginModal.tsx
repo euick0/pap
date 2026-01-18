@@ -22,9 +22,9 @@ const LoginModal = ({onClose}: LoginModalProps) => {
                 <div className="flex-1 flex-col flex justify-center">
                     <p className="ml-36 pt-0 mb-4 text-4xl antialiased font-semibold text-secondary text-stone-200">Log In</p>
                     <label className="antialiased ml-36 mt-5 mb-1 text--">Username or email</label>
-                    <input type="text" className="h-10 text-lg bg-transparent rounded-lg border-2 border-neutral-400 placeholder-white max-w-full mx-36 px-3" placeholder={""}></input>
+                    <input type="text" className="h-10 text-lg bg-transparent rounded-lg border-2 border-neutral-400 placeholder-neutral-500 max-w-full mx-36 px-3" placeholder={"Enter your email/username"}></input>
                     <label className="antialiased ml-36 mt-5 mb-1 text--">Password</label>
-                    <input type="password" className="h-10 text-lg bg-transparent rounded-lg border-2 border-neutral-400 placeholder-white max-w-full mx-36 mb-5 px-3" placeholder=""></input>
+                    <input type="password" className="h-10 text-lg bg-transparent rounded-lg border-2 border-neutral-400 placeholder-neutral-500 max-w-full mx-36 mb-5 px-3" placeholder="Enter your password"></input>
                     <div className="flex justify-between mx-36 mb-5">
                         <div className="flex items-center">
                                 <input type="checkbox" className="size-3.5 min-m-auto"></input>
