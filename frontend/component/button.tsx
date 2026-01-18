@@ -6,16 +6,17 @@ interface ButtonProps {
     content: string | React.ReactNode;
     type?: "main" | "secondary";
     doOnClick?: () => void;
+    customCSS?: string;
 }
 
 
-const Button = ({content, type = "main", doOnClick}: ButtonProps) => {
+const Button = ({content, type = "main", doOnClick, customCSS}: ButtonProps) => {
 
     return (
         <div>
-            <button className={clsx("rounded-xl m-0 transition duration-200 ease-in-out antialiased cursor-pointer", {
-                "px-3 py-2 bg-primary hover:bg-primaryDark": type === "main",
-                "px-3 py-2 hover:text-neutral-400": type === "secondary"
+            <button className={clsx(`rounded-xl m-0 hover:transition hover:duration-200 hover:ease-in-out antialiased cursor-pointer ${customCSS}`, {
+                "px-3 py-2 bg-primary hover:bg-primaryDark active:scale-105 active:duration-75": type === "main",
+                "px-3 py-2 hover:text-neutral-400"  : type === "secondary"
             })}
                     onClick={doOnClick}>
                 {content}

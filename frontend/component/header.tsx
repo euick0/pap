@@ -9,7 +9,6 @@ const Header = () => {
     const [isLoginModalOpen,setIsLoginModalOpen ] = useState(false);
     
     const ToggleLoginModal = () => {
-        console.log(!isLoginModalOpen)
         if(isLoginModalOpen){
             setIsLoginModalOpen(false);
         }
