@@ -1,24 +1,30 @@
 'use client';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import clsx from 'clsx';
 
 interface ButtonProps {
-    content: string | React.ReactNode;
-    type?: "main" | "secondary";
-    doOnClick?: () => void;
+    reactNode?: ReactNode;
+    content?: string;
+    style?: "main" | "secondary";
+    buttonType?: "button" | "submit" | "reset" | undefined;
+    onClick?: () => void;
     customCSS?: string;
 }
 
 
-const Button = ({content, type = "main", doOnClick, customCSS}: ButtonProps) => {
-
+const Button = ({content, style = "main", onClick, customCSS, reactNode, buttonType = "button"}: ButtonProps) => {
+    
+    //TODO resolver erro abaixo :(
     return (
         <div>
-            <button className={clsx(`rounded-xl m-0 hover:transition hover:duration-200 hover:ease-in-out antialiased cursor-pointer ${customCSS}`, {
-                "px-3 py-2 bg-primary hover:bg-primaryDark active:scale-105 active:duration-75": type === "main",
-                "px-3 py-2 hover:text-neutral-400"  : type === "secondary"
-            })}
-                    onClick={doOnClick}>
+            <button
+                className={clsx(`rounded-xl m-0 hover:transition hover:duration-200 hover:ease-in-out antialiased cursor-pointer ${customCSS}`, {
+                    "px-3 py-2 bg-primary hover:bg-primaryDark active:scale-105 active:duration-75": style === "main",
+                    "px-3 py-2 hover:text-neutral-400": style === "secondary"
+                })}
+                type={buttonType}
+                onClick={onClick}>
+                {reactNode}
                 {content}
             </button>
         </div>
