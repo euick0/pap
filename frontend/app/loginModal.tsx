@@ -10,6 +10,7 @@ interface LoginModalProps {
 
 const LoginModal = ({onClose, onClickRegister}: LoginModalProps) => {
 
+    //TODO meter ceninha de ver password
     return (
         <div className="z-2 fixed top-0 left-0 w-screen h-screen bg-black/70 flex justify-center items-center">
             <div className="bg-backgroundLight rounded-md w-8/12 h-8/12 relative flex overflow-hidden">
@@ -46,7 +47,7 @@ const LoginModal = ({onClose, onClickRegister}: LoginModalProps) => {
                     </div>
                     <div className="mx-36 max-w-full mb-5">
                         <Button content="Login" customCSS="w-full mb-2" buttonType="submit"/>
-                        <Button content="Login with Google"
+                        <Button content="Continue with Google"
                                 reactNode={<Image src="/svgs/Google Logo.svg" width="20" height="20" alt="Google Logo"
                                                   className="m-full"></Image>}
                                 customCSS="w-full bg-transparent border-1 border-border hover:bg-border! flex justify-center items-center gap-2"

@@ -1,7 +1,6 @@
 import React from 'react';
 
 const BackgroundVideo = () => {
-    //TODO ver opacidade de background
     return (
         <div className="absolute top-0 w-full h-full -z-10 overflow-hidden">
             <video src="/videos/Video%20Reqal%20Background.mp4" autoPlay muted loop className="object-cover w-full h-full "></video>
