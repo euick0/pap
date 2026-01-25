@@ -45,7 +45,7 @@ const Header = () => {
             <div className="relative w-screen h-screen overflow-hidden">
                 <div className="flex justify-between box-border w-[98vw] px-8 py-3 m-5 items-center bg-gray-500/30 rounded-4xl absolute z-1">
                     <div className="flex flex-1 items-center gap-4 justify-start">
-                        <Logo width={100} height={100}/>
+                        <Logo width={100} height={100} iconType="textDark"/>
                     </div>
                     <div className="flex items-center gap-4">
                         <Button style="secondary" content="About us"/>
