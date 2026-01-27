@@ -42,12 +42,17 @@ const RegisterModal = ({onClose, onClickLogin}: RegisterModalProps) => {
                        className="object-cover w-full h-full "></Image>
             </div>
             <form className="flex-1 flex-col flex justify-center" action={RegisterHandler}>
-                <p className="ml-36 pt-0 mb-4 text-4xl antialiased font-semibold text-secondary text-stone-200">Register</p>
+                <p className="ml-36 pt-0 text-4xl antialiased font-semibold text-secondary text-stone-200">Register</p>
                 <label className="antialiased ml-36 mt-5 mb-1 text--">Username</label>
                 <input type="text"
                        className="h-10 text-lg bg-transparent rounded-lg border-2 border-neutral-400 placeholder-white max-w-full mx-36 px-3"
                        placeholder=""
                        name="username"></input>
+                <label className="antialiased ml-36 mt-5 mb-1 text--">Name</label>
+                <input type="text"
+                       className="h-10 text-lg bg-transparent rounded-lg border-2 border-neutral-400 placeholder-white max-w-full mx-36 px-3"
+                       placeholder=""
+                       name="name"></input>
                 <label className="antialiased ml-36 mt-5 mb-1 text--">Email</label>
                 <input type="email"
                        className="h-10 text-lg bg-transparent rounded-lg border-2 border-neutral-400 placeholder-white max-w-full mx-36 px-3"

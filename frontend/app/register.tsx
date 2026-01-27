@@ -1,16 +1,26 @@
 'use server';
 
 const RegisterHandler = async (formData: FormData) => {
-    const email = formData.get("usernameOrEmail")
+    const username = formData.get("username")
+    const email = formData.get("email")
     const password = formData.get("password")
+    const name = formData.get("name")
     const remember = formData.get("remember")
     const res = await fetch("http://localhost:8000/api/users")
-    const data = await res.json()
 
     console.log(password)
     console.log(email)
     console.log(remember)
-    console.log(data)
+
+    const response = await fetch("http://localhost:8000/api/users", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({name: {name}, username: {username}, email: {email}, password:{password}}),
+    });
+
+    console.log(response)
 
 };
 
