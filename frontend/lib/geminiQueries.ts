@@ -208,7 +208,7 @@ const GeminiSendPhraseTranslationQuery = async (word: string, phrase: string, ta
         "\n" +
         "RELATIONSHIP BETWEEN WORD AND PHRASE:\n" +
         "\n" +
-        "The word and phrase are related.\n" +
+        "The word and phrase are NOT independent translations. They are one grammatical unit: the phrase is a sentence with a blank, and the word is the exact piece that slots into that blank.\n" +
         "\n" +
         "The phrase may contain one or more underscores \"_\" which indicate where the word would normally appear in the sentence.\n" +
         "\n" +
@@ -216,6 +216,10 @@ const GeminiSendPhraseTranslationQuery = async (word: string, phrase: string, ta
         "I _ to go to the doctor.\n" +
         "\n" +
         "The underscore represents the location where the word logically fits.\n" +
+        "\n" +
+        "The translated word must be the SAME grammatical form that a native speaker would write at the underscore position if the underscore were filled in. It must obey the target language's conjugation, declension, and agreement rules for that exact sentence context: correct verb tense, mood, person, and number; correct noun/adjective gender, number, and case; correct article or preposition contraction, if the language requires one at that position.\n" +
+        "\n" +
+        "Do not translate the word in isolation and then check if it fits. Instead, mentally insert the word into the phrase first, translate the whole sentence as one coherent unit, and then extract from that translated sentence exactly the form that landed at the underscore. That extracted form is \"word_translation\".\n" +
         "\n" +
         "However, the phrase translation must NOT insert the translated word. The underscore must remain in the translated phrase.\n" +
         "\n" +
@@ -248,23 +252,17 @@ const GeminiSendPhraseTranslationQuery = async (word: string, phrase: string, ta
         "\n" +
         "WORD TRANSLATION RULE:\n" +
         "\n" +
-        "The translated word must be chosen while considering the phrase so that it would fit naturally into the sentence when replacing the underscore.\n" +
+        "This is a conjugation exercise. The word translation is graded by whether it is the exact, correctly conjugated/inflected form required at the underscore — NOT by whether it matches the word's dictionary entry.\n" +
         "\n" +
-        "This means:\n" +
+        "Do NOT default to the infinitive, base, or dictionary form. If the sentence requires a conjugated verb form, a declined noun/adjective, or any other inflected form at that position, \"word_translation\" MUST be that inflected form, even though it will not literally be inserted into \"phrase_translation\".\n" +
         "\n" +
-        "Consider grammar and meaning of the phrase.\n" +
+        "The base/dictionary form is only correct when the base form IS what a native speaker would naturally write at that exact position in that exact sentence.\n" +
         "\n" +
-        "Choose the most appropriate translation that would work in that sentence.\n" +
-        "\n" +
-        "The word translation should normally be the base or dictionary form when possible.\n" +
-        "\n" +
-        "The word translation is returned separately and must NOT be inserted into the phrase translation.\n" +
+        "The word translation is returned separately and must NOT be inserted into the phrase translation — the underscore stays a placeholder there — but the two must still agree grammatically: replacing the underscore in \"phrase_translation\" with \"word_translation\" must produce a grammatically correct, natural sentence in the target language.\n" +
         "\n" +
         "TASK:\n" +
         "\n" +
-        "Translate the word into the target language.\n" +
-        "\n" +
-        "Choose the translation while considering the phrase so it fits naturally if inserted into the underscore position.\n" +
+        "Translate the word into the target language as the specific conjugated/inflected form the phrase requires at the underscore.\n" +
         "\n" +
         "Provide the grammatical gender of the translated word:\n" +
         "\n" +
